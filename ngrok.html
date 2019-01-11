@@ -1,0 +1,90 @@
+<script type="text/javascript">
+    RED.nodes.registerType('ngrok',{
+        category: 'function',
+        color: '#008080',
+        defaults: {
+          creds: {value:"", type:"ngrokauth"},
+          region:{default: 'us'},
+          subdomain:{default: ""},
+          name: {value:""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "white-globe.png",
+        label: function() {
+            return this.name||"ngrok";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="ngrok">
+    <div class="form-row">
+      <label for="node-config-input-privatekey"></i>ngrok authtoken</label>
+      <input type="text" id="node-input-creds" >
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-region"><i class="fa fa-tasks"></i>region</label>
+        <select type="text" id="node-input-action" style="width:70%;">
+        <option value="us">US</option>
+        <option value="eu">Europe</option>
+        <option value="ap">Asia</option>
+         </select>
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-subdomain"><i class="icon-tag"></i>Subdomain</label>
+        <input type="text" id="node-input-subdomain" placeholder="Name">
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="ngrok">
+    <p>A node that wraps the ngrok controller and also adds the ngrok binary</p>
+    
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt><span class="property-type">object</span></dt>
+        <dd> <code>msg.payload</code> is either <code>on</code> or <code>off</code> to start/stop the tunnel</dd>
+    </dl>
+     <h3>Outputs</h3>
+     <dl class="message-properties">
+         <dt><span class="property-type">object</span></dt>
+         <dd> <code>msg.payload.url</code> will contain the ngrok public url that is established</dd>
+     </dl>
+
+   
+    
+</script>
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('ngrokauth',{
+        category: 'config',
+        defaults: {
+          authtoken: {},
+        },
+        label: function() {
+            return 'authtoken';
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="ngrokauth">
+  <div class="form-row">
+      <label for="node-config-input-authtoken">authtoken</label>
+      <input type="text" id="node-config-input-authtoken" placeholder="token">
+  </div>
+  
+</script>
+
+<script type="text/x-red" data-help-name="ngrokauth">
+   <p>Ngrok authtoken </p>
+   <h3>Details</h3>
+   <p> You can optionally set an authtoken obtained from ngrok.com, this is required for accesspaid features such as reserved names</p>
+</script>
