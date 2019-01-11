@@ -1,9 +1,14 @@
 {
     "name": "node-red-contrib-ngrok",
     "version": "0.0.1",
-    "description": "Ngrok node to wrap and control ngrok",
+    "description": "nodered node to wrap and control ngrok",
     "author": "Sam Machin",
     "license": "MIT",
+    "homepage": "https://github.com/sammachin/node-red-contrib-ngrok",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/sammachin/node-red-contrib-ngrok.git"
+    },
     "node-red": {
         "nodes": {
             "ngrok": "ngrok.js"
