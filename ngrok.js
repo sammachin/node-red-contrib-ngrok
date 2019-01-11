@@ -33,7 +33,7 @@ module.exports = function(RED) {
           }
           else if (msg.payload == 'off'){
               (async function(){
-                  await ng.disconnect();
+                  await ng.kill();
                   msg.payload = null;
                   node.send(msg);
                   node.status({fill:"red",shape:"ring",text:"disconnected"});
