@@ -26,7 +26,7 @@ module.exports = function(RED) {
             if (msg.payload == 'on'){
               (async function(){
                   const url = await ng.connect(options);
-                  msg.payload.url = url;
+                  msg.payload = url;
                   node.send(msg);
                   node.status({fill:"green",shape:"dot",text:"connected"});
               })();
@@ -34,7 +34,7 @@ module.exports = function(RED) {
           else if (msg.payload == 'off'){
               (async function(){
                   await ng.disconnect();
-                  msg.payload.url = null;
+                  msg.payload = null;
                   node.send(msg);
                   node.status({fill:"red",shape:"ring",text:"disconnected"});
               })();
