@@ -3,6 +3,7 @@
         category: 'function',
         color: '#008080',
         defaults: {
+          port: {default: ""},
           creds: {value:"", type:"ngrokauth"},
           region:{default: 'us'},
           subdomain:{default: ""},
@@ -15,16 +16,23 @@
             return this.name||"ngrok";
         }
     });
+    
+    
 </script>
 
 <script type="text/x-red" data-template-name="ngrok">
     <div class="form-row">
-      <label for="node-config-input-privatekey"></i>ngrok authtoken</label>
+      <label for="node-config-input-privatekey">authtoken</label>
       <input type="text" id="node-input-creds" >
     </div>
     
     <div class="form-row">
-        <label for="node-input-region"><i class="fa fa-tasks"></i>region</label>
+        <label for="node-input-port">Port</label>
+        <input type="text" id="node-input-port" placeholder="node-red current port">
+    </div>
+    
+    <div class="form-row">
+        <label for="node-input-region">Region</label>
         <select type="text" id="node-input-region" style="width:70%;">
         <option value="us">US</option>
         <option value="eu">Europe</option>
@@ -33,13 +41,13 @@
     </div>
     
     <div class="form-row">
-        <label for="node-input-subdomain"><i class="icon-tag"></i>Subdomain</label>
+        <label for="node-input-subdomain">Subdomain</label>
         <input type="text" id="node-input-subdomain" placeholder="Name">
     </div>
     
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <input type="text" id="node-input-name" placeholder="ngrok">
     </div>
 </script>
 

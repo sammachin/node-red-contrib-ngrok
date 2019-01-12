@@ -2,7 +2,7 @@ const ng = require('ngrok');
 
 module.exports = function(RED) {
     function ngrok(config) {
-        RED.nodes.createNode(this,config);
+        RED.nodes.createNode(this, config);
         var node = this;
         this.creds = RED.nodes.getNode(config.creds);
         this.subdomain = config.subdomain;
@@ -12,12 +12,15 @@ module.exports = function(RED) {
         } else {
           this.authtoken = RED.nodes.getNode(config.creds).authtoken;
         }
-        console.log(this.authtoken);
+        if (config.port == ""){
+          this.port = RED.settings.uiPort;
+        } else{
+          this.port = config.port;
+        }
         node.on('input', function(msg) {
-          if (this.creds == null)
           var options = {
                 proto: 'http', 
-                addr: RED.settings.uiPort, 
+                addr: this.port, 
                 subdomain: this.subdomain, 
                 authtoken: this.authtoken,
                 region: this.region, 
@@ -28,7 +31,7 @@ module.exports = function(RED) {
                   const url = await ng.connect(options);
                   msg.payload = url;
                   node.send(msg);
-                  node.status({fill:"green",shape:"dot",text:"connected"});
+                  node.status({fill:"green",shape:"dot",text:url});
               })();
           }
           else if (msg.payload == 'off'){
