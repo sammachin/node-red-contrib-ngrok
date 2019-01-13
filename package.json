@@ -9,6 +9,7 @@
         "type": "git",
         "url": "git://github.com/sammachin/node-red-contrib-ngrok.git"
     },
+    "keywords": [ "node-red" ],
     "node-red": {
         "nodes": {
             "ngrok": "ngrok.js"
