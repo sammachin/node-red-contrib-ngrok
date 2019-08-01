@@ -10,7 +10,7 @@ module.exports = function(RED) {
         if (RED.nodes.getNode(config.creds) == null){
           this.authtoken = "";
         } else {
-          this.authtoken = RED.nodes.getNode(config.creds).authtoken;
+          this.authtoken = RED.nodes.getNode(config.creds).credentials.authtoken;
         }
         if (config.port == ""){
           this.port = RED.settings.uiPort;
@@ -50,8 +50,13 @@ module.exports = function(RED) {
      RED.nodes.createNode(this, n);
      this.authtoken = n.authtoken;
   }
+  
  RED.nodes.registerType("ngrok",ngrok);
- RED.nodes.registerType("ngrokauth",ngrokauth);    
+ RED.nodes.registerType("ngrokauth",ngrokauth,{
+   credentials: {
+     authtoken: {type:"text"}
+   }
+ });      
 }
 
 function clean(obj) {
