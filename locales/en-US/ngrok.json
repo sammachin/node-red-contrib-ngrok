@@ -10,10 +10,7 @@
             "us": "United States (Ohio)",
             "eu": "Europe (Frankfurt)",
             "ap": "Asia/Pacific (Singapore)",
-            "au": "Australia (Sydney)",
-            "sa": "South America (Sao Paulo)",
-            "jp": "Japan (Tokyo)",
-            "in": "India (Mumbai)"
+            "au": "Australia (Sydney)"
         }
     }
 }
