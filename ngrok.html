@@ -3,7 +3,7 @@
         category: 'function',
         color: '#008080',
         defaults: {
-          port: {value: ""},
+          port: {value: "", validate:RED.validators.number()},
           creds: {value: "", type:"ngrokauth"},
           region:{value: "us"},
           subdomain:{value: ""},
