@@ -3,11 +3,11 @@
         category: 'function',
         color: '#008080',
         defaults: {
-          port: {default: ""},
-          creds: {value:"", type:"ngrokauth"},
-          region:{default: 'us'},
-          subdomain:{default: ""},
-          name: {value:""}
+          port: {value: ""},
+          creds: {value: "", type:"ngrokauth"},
+          region:{value: "us"},
+          subdomain:{value: ""},
+          name: {value: ""}
         },
         inputs:1,
         outputs:1,
@@ -16,60 +16,42 @@
             return this.name||"ngrok";
         }
     });
-    
-    
 </script>
 
 <script type="text/x-red" data-template-name="ngrok">
     <div class="form-row">
-      <label for="node-config-input-privatekey">authtoken</label>
+      <label for="node-config-input-privatekey"> <span data-i18n="ngrok.label.authtoken"></span></label>
       <input type="text" id="node-input-creds" >
     </div>
     
     <div class="form-row">
-        <label for="node-input-port">Port</label>
+        <label for="node-input-port"> <span data-i18n="ngrok.label.port"></span></label>
         <input type="text" id="node-input-port" placeholder="node-red current port">
     </div>
     
     <div class="form-row">
-        <label for="node-input-region">Region</label>
+        <label for="node-input-region"> <span data-i18n="ngrok.label.region"></span></label>
         <select type="text" id="node-input-region" style="width:70%;">
-        <option value="us">US</option>
-        <option value="eu">Europe</option>
-        <option value="ap">Asia</option>
-         </select>
+            <option value="us" data-i18n="ngrok.region.us"></option>
+            <option value="eu" data-i18n="ngrok.region.eu"></option>
+            <option value="ap" data-i18n="ngrok.region.ap"></option>
+            <option value="au" data-i18n="ngrok.region.au"></option>
+            <option value="sa" data-i18n="ngrok.region.sa"></option>
+            <option value="jp" data-i18n="ngrok.region.jp"></option>
+            <option value="in" data-i18n="ngrok.region.in"></option>
+        </select>
     </div>
     
     <div class="form-row">
-        <label for="node-input-subdomain">Subdomain</label>
+        <label for="node-input-subdomain"> <span data-i18n="ngrok.label.subdomain"></span></label>
         <input type="text" id="node-input-subdomain" placeholder="Name">
     </div>
     
     <div class="form-row">
-        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <label for="node-input-name"><i class="icon-tag"></i> <span data-i18n="node-red:common.label.name"></span></label>
         <input type="text" id="node-input-name" placeholder="ngrok">
     </div>
 </script>
-
-<script type="text/x-red" data-help-name="ngrok">
-    <p>A node that wraps the ngrok controller and also adds the ngrok binary</p>
-    
-
-    <h3>Inputs</h3>
-    <dl class="message-properties">
-        <dt><span class="property-type">object</span></dt>
-        <dd> <code>msg.payload</code> is either <code>on</code> or <code>off</code> to start/stop the tunnel</dd>
-    </dl>
-     <h3>Outputs</h3>
-     <dl class="message-properties">
-         <dt><span class="property-type">object</span></dt>
-         <dd> <code>msg.payload</code> will contain the ngrok public url that is established or null if the tunnel was stopped</dd>
-     </dl>
-
-   
-    
-</script>
-
 
 <script type="text/javascript">
     RED.nodes.registerType('ngrokauth',{
@@ -85,14 +67,7 @@
 
 <script type="text/x-red" data-template-name="ngrokauth">
   <div class="form-row">
-      <label for="node-config-input-authtoken">authtoken</label>
+      <label for="node-config-input-authtoken"> <span data-i18n="ngrok.label.authtoken"></span></label>
       <input type="text" id="node-config-input-authtoken" placeholder="token">
   </div>
-  
-</script>
-
-<script type="text/x-red" data-help-name="ngrokauth">
-   <p>Ngrok authtoken </p>
-   <h3>Details</h3>
-   <p> You can optionally set an authtoken obtained from ngrok.com, this is required for accesspaid features such as reserved names</p>
 </script>

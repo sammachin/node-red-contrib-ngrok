@@ -9,13 +9,18 @@
         "type": "git",
         "url": "git://github.com/sammachin/node-red-contrib-ngrok.git"
     },
-    "keywords": [ "node-red" ],
+    "keywords": [
+        "node-red"
+    ],
     "node-red": {
         "nodes": {
             "ngrok": "ngrok.js"
         }
     },
     "dependencies": {
-        "ngrok": "^3.1.0"
+        "ngrok": "^3.2.5"
+    },
+    "engines": {
+        "node": ">=8.3.0"
     }
 }
