@@ -28,10 +28,15 @@ module.exports = function(RED) {
             clean(options);
             if (msg.payload == 'on'){
               (async function(){
+                try{
                   const url = await ng.connect(options);
                   msg.payload = url;
                   node.send(msg);
                   node.status({fill:"green",shape:"dot",text:url});
+                }catch(e){
+                  node.error(e);
+                  node.status({fill:"red",shape:"dot",text: "connnect error"});
+                }
               })();
           }
           else if (msg.payload == 'off'){
