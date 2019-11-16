@@ -37,10 +37,21 @@ module.exports = function(RED) {
             clean(options);
             if (msg.payload == 'on'){
               (async function(){
+                try {
+                  // try to kill previous connection to prevent duplicate connection
+                  await ng.kill();
+                } catch ({message}) {
+                  console.log(`Kill error: ${message}`);
+                }
+
+                try {
                   const url = await ng.connect(options);
                   msg.payload = url;
                   node.send(msg);
                   node.status({fill:"green",shape:"dot",text:url});
+                } catch ({message}) {
+                  console.log(`Connect error: ${message}`);
+                }
               })();
           }
           else if (msg.payload == 'off'){
