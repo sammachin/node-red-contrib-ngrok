@@ -25,6 +25,15 @@ module.exports = function(RED) {
                 authtoken: this.authtoken,
                 region: this.region, 
             }
+            
+            if (this.auth) {
+              const auth = this.auth.split(':');
+
+              if (auth && auth.length === 2) {
+                options.auth = this.auth;
+              }
+            }
+
             clean(options);
             if (msg.payload == 'on'){
               (async function(){
