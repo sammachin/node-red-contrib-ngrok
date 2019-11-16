@@ -7,6 +7,7 @@ module.exports = function(RED) {
         this.creds = RED.nodes.getNode(config.creds);
         this.subdomain = config.subdomain;
         this.region = config.region;
+        this.auth = config.auth;
         if (RED.nodes.getNode(config.creds) == null){
           this.authtoken = "";
         } else {
