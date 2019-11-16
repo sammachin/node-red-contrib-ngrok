@@ -38,13 +38,6 @@ module.exports = function(RED) {
             if (msg.payload == 'on'){
               (async function(){
                 try {
-                  // try to kill previous connection to prevent duplicate connection
-                  await ng.kill();
-                } catch ({message}) {
-                  console.log(`Kill error: ${message}`);
-                }
-
-                try {
                   const url = await ng.connect(options);
                   msg.payload = url;
                   node.send(msg);
