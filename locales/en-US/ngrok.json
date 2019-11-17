@@ -1,0 +1,16 @@
+{
+    "ngrok":{
+        "label":{
+            "authtoken": "AuthToken",
+            "region": "Region",
+            "port": "Port",
+            "subdomain": "SubDomain"
+        },
+        "region":{
+            "us": "United States (Ohio)",
+            "eu": "Europe (Frankfurt)",
+            "ap": "Asia/Pacific (Singapore)",
+            "au": "Australia (Sydney)"
+        }
+    }
+}
