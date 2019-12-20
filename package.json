@@ -18,7 +18,7 @@
         }
     },
     "dependencies": {
-        "ngrok": "^3.2.5"
+        "ngrok": "^3.2.7"
     },
     "engines": {
         "node": ">=8.3.0"
