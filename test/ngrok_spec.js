@@ -1,6 +1,4 @@
-if(!process.env.GITHUB_ACTIONS){
-  require('dotenv').config();
-}
+require('dotenv').config();
 const isUrl = require("is-url");
 const should = require("should");
 const helper = require("node-red-node-test-helper");
@@ -76,10 +74,9 @@ describe("Ngrok Node", () => {
           { id: "n2", type: "helper" }
         ];
         helper.load(node, flow, {n1:{auth:"test:test", }, creds:{authtoken:"dummy"}},() => {
-            const n2 = helper.getNode("n2");
             const n1 = helper.getNode("n1");
             n1.on("call:error", (e) => {
-                e.lastArg.error_code.should.be.equal(103);
+                e.args[0].error_code.should.be.equal(103);
                 done();
             });
             n1.receive({ payload: "on" });
@@ -95,7 +92,7 @@ describe("Ngrok Node", () => {
         helper.load(node, flow, {n1:{auth:"test:test", }, creds:{authtoken:""}},() => {
             const n1 = helper.getNode("n1");
             n1.on("call:error", (e) => {
-                e.lastArg.message.should.be.equal("authtoken is empty");
+                e.args[0].message.should.be.equal("authtoken is empty");
                 done();
             });
             n1.receive({ payload: "on" });
