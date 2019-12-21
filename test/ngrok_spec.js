@@ -1,4 +1,6 @@
-require('dotenv').config();
+if(!process.env.GITHUB_ACTIONS){
+  require('dotenv').config();
+}
 const isUrl = require("is-url");
 const should = require("should");
 const helper = require("node-red-node-test-helper");
