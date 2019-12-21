@@ -12,6 +12,9 @@
             "eu": "Europe (Frankfurt)",
             "ap": "Asia/Pacific (Singapore)",
             "au": "Australia (Sydney)"
+        },
+        "errors":{
+            "empty_authtoken": "authtoken is empty"
         }
     }
 }
