@@ -12,9 +12,11 @@ While ngrok doesn't require account registration if you register then you can ha
 You can set your authtoken for your ngrok account as a config param, if you don't have an authtoken leave this out, the node will warn that it is not full configured but this is not an issue
 
 
-### !!!DANGER!!!
+## Note
 
-By running this node you will be exposing your node-red install to the public internet, therefore you are *strongly* advised to set an admin password on the editor.
-read (https://nodered.org/docs/security)
+Running this node will publish the node-red installation to the public internet.
+Strongly recommend one of the following settings:
+- Set auth
+- Set administrator password in on the editor. (refs: [Securing Node-RED](https://nodered.org/docs/security))
 
 Feedback, Issues and PRs welcome on github.

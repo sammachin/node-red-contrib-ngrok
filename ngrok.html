@@ -9,6 +9,9 @@
           subdomain:{value: ""},
           name: {value: ""}
         },
+        credentials: {
+            auth: {type:"text"}
+        },
         inputs:1,
         outputs:1,
         icon: "white-globe.png",
@@ -42,6 +45,11 @@
     <div class="form-row">
         <label for="node-input-subdomain"> <span data-i18n="ngrok.label.subdomain"></span></label>
         <input type="text" id="node-input-subdomain" placeholder="Name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-auth"> <span data-i18n="ngrok.label.auth"></span></label>
+        <input type="text" id="node-input-auth" placeholder="username:password">
     </div>
     
     <div class="form-row">

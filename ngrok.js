@@ -17,6 +17,9 @@ module.exports = function(RED) {
         } else{
           this.port = config.port;
         }
+        if (this.credentials.auth) {
+          this.auth = this.credentials.auth;
+        }
         node.on('input', function(msg) {
           var options = {
                 proto: 'http', 
@@ -24,7 +27,8 @@ module.exports = function(RED) {
                 subdomain: this.subdomain, 
                 authtoken: this.authtoken,
                 region: this.region, 
-            }
+                auth: this.auth
+            };
             clean(options);
             if (msg.payload == 'on'){
               (async function(){
@@ -47,8 +51,6 @@ module.exports = function(RED) {
                   node.status({fill:"red",shape:"ring",text:"disconnected"});
               })();
           }
-
-          
         });
   }
   function ngrokauth(n){
@@ -56,7 +58,11 @@ module.exports = function(RED) {
      this.authtoken = n.authtoken;
   }
   
- RED.nodes.registerType("ngrok",ngrok);
+ RED.nodes.registerType("ngrok",ngrok,{
+   credentials:{
+     auth: {type:"text"}
+   }
+ });
  RED.nodes.registerType("ngrokauth",ngrokauth,{
    credentials: {
      authtoken: {type:"text"}
