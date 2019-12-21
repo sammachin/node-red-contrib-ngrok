@@ -1,13 +1,13 @@
 {
-    "name": "@okhiroyuki/node-red-contrib-ngrok",
+    "name": "node-red-contrib-ngrok",
     "version": "0.1.3",
     "description": "nodered node to wrap and control ngrok",
     "author": "Sam Machin",
     "license": "MIT",
-    "homepage": "https://github.com/okhiroyuki/node-red-contrib-ngrok",
+    "homepage": "https://github.com/sammachin/node-red-contrib-ngrok",
     "repository": {
         "type": "git",
-        "url": "git://github.com/okhiroyuki/node-red-contrib-ngrok.git"
+        "url": "git://github.com/sammachin/node-red-contrib-ngrok.git"
     },
     "keywords": [
         "node-red",
