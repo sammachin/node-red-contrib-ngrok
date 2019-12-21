@@ -1,5 +1,5 @@
 {
-    "name": "node-red-contrib-ngrok",
+    "name": "@okhiroyuki/node-red-contrib-ngrok",
     "version": "0.1.1",
     "description": "nodered node to wrap and control ngrok",
     "author": "Sam Machin",
