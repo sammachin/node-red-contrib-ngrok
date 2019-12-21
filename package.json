@@ -10,8 +10,11 @@
         "url": "git://github.com/sammachin/node-red-contrib-ngrok.git"
     },
     "keywords": [
-        "node-red"
+        "node-red","ngrok"
     ],
+    "scripts": {
+        "test": "grunt"
+    },
     "node-red": {
         "nodes": {
             "ngrok": "ngrok.js"
