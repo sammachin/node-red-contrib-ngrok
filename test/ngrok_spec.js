@@ -76,9 +76,7 @@ describe("Ngrok Node", () => {
         helper.load(node, flow, {n1:{auth:"test:test", }, creds:{authtoken:"dummy"}},() => {
             const n1 = helper.getNode("n1");
             n1.on("call:error", (e) => {
-              console.log(e);
-                // e.args[0].error_code.should.be.equal(103);
-                done();
+              done();
             });
             n1.receive({ payload: "on" });
         });
@@ -93,8 +91,7 @@ describe("Ngrok Node", () => {
         helper.load(node, flow, {n1:{auth:"test:test", }, creds:{authtoken:""}},() => {
             const n1 = helper.getNode("n1");
             n1.on("call:error", (e) => {
-              console.log(e);
-                // e.args[0].message.should.be.equal("authtoken is empty");
+                e.lastArg.message.should.be.equal("authtoken is empty");
                 done();
             });
             n1.receive({ payload: "on" });
