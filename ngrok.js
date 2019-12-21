@@ -31,6 +31,11 @@ module.exports = function(RED) {
             };
             clean(options);
             if (msg.payload == 'on'){
+              if(!options.authtoken){
+                node.error(new Error("authtoken is empty"));
+                node.status({fill:"red",shape:"dot",text: "authtoken is empty"});
+                return;  
+              }
               (async function(){
                 try{
                   const url = await ng.connect(options);
@@ -48,7 +53,7 @@ module.exports = function(RED) {
                   await ng.kill();
                   msg.payload = null;
                   node.send(msg);
-                  node.status({fill:"red",shape:"ring",text:"disconnected"});
+                  node.status({fill:"red",shape:"ring", text:"disconnected"});
               })();
           }
         });
