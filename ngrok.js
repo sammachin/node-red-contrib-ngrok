@@ -17,6 +17,9 @@ module.exports = function(RED) {
         } else{
           this.port = config.port;
         }
+        if (this.credentials.auth) {
+          this.auth = this.credentials.auth;
+        }
         node.on('input', function(msg) {
           var options = {
                 proto: 'http', 
@@ -24,9 +27,15 @@ module.exports = function(RED) {
                 subdomain: this.subdomain, 
                 authtoken: this.authtoken,
                 region: this.region, 
-            }
+                auth: this.auth
+            };
             clean(options);
             if (msg.payload == 'on'){
+              if(!options.authtoken){
+                node.error(new Error("authtoken is empty"));
+                node.status({fill:"red",shape:"dot",text: "authtoken is empty"});
+                return;  
+              }
               (async function(){
                 try{
                   const url = await ng.connect(options);
@@ -44,11 +53,9 @@ module.exports = function(RED) {
                   await ng.kill();
                   msg.payload = null;
                   node.send(msg);
-                  node.status({fill:"red",shape:"ring",text:"disconnected"});
+                  node.status({fill:"red",shape:"ring", text:"disconnected"});
               })();
           }
-
-          
         });
   }
   function ngrokauth(n){
@@ -56,7 +63,11 @@ module.exports = function(RED) {
      this.authtoken = n.authtoken;
   }
   
- RED.nodes.registerType("ngrok",ngrok);
+ RED.nodes.registerType("ngrok",ngrok,{
+   credentials:{
+     auth: {type:"text"}
+   }
+ });
  RED.nodes.registerType("ngrokauth",ngrokauth,{
    credentials: {
      authtoken: {type:"text"}

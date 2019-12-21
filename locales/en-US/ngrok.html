@@ -5,13 +5,18 @@
         <dt>payload<span class="property-type">string</span></dt>
         <dd>either <code>on</code> or <code>off</code> to start/stop the tunnel</dd>
     </dl>
-     <h3>Outputs</h3>
-     <dl class="message-properties">
-         <dt>payload<span class="property-type">string</span></dt>
-         <dd>the ngrok public url that is established or null if the tunnel was stopped</dd>
-     </dl>
-     <h3>Detials</h3>
-     <p><b>Note</b>: By running this node you will be exposing your node-red install to the public internet, therefore you are strongly advised to set an admin password on the editor.</p>
+        <h3>Outputs</h3>
+        <dl class="message-properties">
+        <dt>payload<span class="property-type">string</span></dt>
+        <dd>the ngrok public url that is established or null if the tunnel was stopped</dd>
+    </dl>
+    <h3>Detials</h3>
+    <p><b>Note</b>: By running this node you will be exposing your node-red install to the public internet.</p>
+    <p>Strongly recommend one of the following settings:</p>
+    <ul>
+        <li>Set auth</li>
+        <li>Set administrator password in on the editor. (refs: <a href="https://nodered.org/docs/security">Securing Node-RED</a>)</li>
+    </ul>
 </script>
 
 <script type="text/x-red" data-help-name="ngrokauth">

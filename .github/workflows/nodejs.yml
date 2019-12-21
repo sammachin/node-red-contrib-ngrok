@@ -24,4 +24,4 @@ jobs:
         npm test
       env:
         CI: true
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN}}
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}

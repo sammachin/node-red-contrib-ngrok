@@ -4,13 +4,17 @@
             "authtoken": "AuthToken",
             "region": "Region",
             "port": "Port",
-            "subdomain": "SubDomain"
+            "subdomain": "SubDomain",
+            "auth": "Auth"
         },
         "region":{
             "us": "United States (Ohio)",
             "eu": "Europe (Frankfurt)",
             "ap": "Asia/Pacific (Singapore)",
             "au": "Australia (Sydney)"
+        },
+        "errors":{
+            "empty_authtoken": "authtoken is empty"
         }
     }
 }
