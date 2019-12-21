@@ -31,6 +31,7 @@
         "grunt-jsonlint": "^2.0.0",
         "grunt-lint-inline": "^1.0.0",
         "grunt-mocha-istanbul": "^5.0.2",
+        "grunt-nr-locales-htmllint": "^1.0.2",
         "grunt-simple-mocha": "^0.4.1",
         "is-url": "^1.2.4",
         "istanbul": "^1.1.0-alpha.1",
