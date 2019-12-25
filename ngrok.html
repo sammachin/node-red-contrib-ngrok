@@ -48,7 +48,7 @@
 
     <div class="form-row">
         <label for="node-input-region">Protocol</label>
-        <select type="text" id="node-input-proto" style="width:70%;" onchange="toggleProtocol(this.value)"
+        <select type="text" id="node-input-proto" style="width:70%;" onchange="toggleProtocol(this.value)">
         <option value="http">HTTP</option>
         <option value="tcp">TCP</option>
          </select>
@@ -81,7 +81,8 @@
     else if (proto == 'tcp'){
       document.getElementById("subdomain").style.display = "none";
       document.getElementById("auth").style.display = "none";
-  }
+    }
+  };
 </script>
 
 <script type="text/x-red" data-help-name="ngrok">
