@@ -7,6 +7,7 @@ module.exports = function(RED) {
         this.creds = RED.nodes.getNode(config.creds);
         this.subdomain = config.subdomain;
         this.region = config.region;
+        this.auth = config.auth;
         this.proto = config.proto;
         if (RED.nodes.getNode(config.creds) == null){
           this.authtoken = "";
@@ -26,13 +27,26 @@ module.exports = function(RED) {
                 authtoken: this.authtoken,
                 region: this.region,
             }
+            
+            if (this.auth) {
+              const auth = this.auth.split(':');
+
+              if (auth && auth.length === 2) {
+                options.auth = this.auth;
+              }
+            }
+
             clean(options);
             if (msg.payload == 'on'){
               (async function(){
+                try {
                   const url = await ng.connect(options);
                   msg.payload = url;
                   node.send(msg);
                   node.status({fill:"green",shape:"dot",text:url});
+                } catch ({message}) {
+                  console.log(`Connect error: ${message}`);
+                }
               })();
           }
           else if (msg.payload == 'off'){

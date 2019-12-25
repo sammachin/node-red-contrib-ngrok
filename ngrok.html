@@ -8,7 +8,8 @@
           region:{default: 'us'},
           proto:{default: 'http'},
           subdomain:{default: ""},
-          name: {value:""}
+          name: {value:""},
+          auth: {value: ""}
         },
         inputs:1,
         outputs:1,
@@ -52,6 +53,11 @@
     <div class="form-row">
         <label for="node-input-subdomain">Subdomain</label>
         <input type="text" id="node-input-subdomain" placeholder="Name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-auth">Auth</label>
+        <input type="text" id="node-input-auth" placeholder="username:password">
     </div>
 
     <div class="form-row">
