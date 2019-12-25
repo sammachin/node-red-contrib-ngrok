@@ -8,6 +8,7 @@ module.exports = function(RED) {
         this.subdomain = config.subdomain;
         this.region = config.region;
         this.auth = config.auth;
+        this.proto = config.proto;
         if (RED.nodes.getNode(config.creds) == null){
           this.authtoken = "";
         } else {
@@ -20,11 +21,11 @@ module.exports = function(RED) {
         }
         node.on('input', function(msg) {
           var options = {
-                proto: 'http', 
-                addr: this.port, 
-                subdomain: this.subdomain, 
+                proto: this.proto,
+                addr: this.port,
+                subdomain: this.subdomain,
                 authtoken: this.authtoken,
-                region: this.region, 
+                region: this.region,
             }
             
             if (this.auth) {
@@ -57,24 +58,24 @@ module.exports = function(RED) {
               })();
           }
 
-          
+
         });
   }
   function ngrokauth(n){
      RED.nodes.createNode(this, n);
      this.authtoken = n.authtoken;
   }
-  
+
  RED.nodes.registerType("ngrok",ngrok);
  RED.nodes.registerType("ngrokauth",ngrokauth,{
    credentials: {
      authtoken: {type:"text"}
    }
- });      
+ });
 }
 
 function clean(obj) {
-  for (var propName in obj) { 
+  for (var propName in obj) {
     if (obj[propName] === null || obj[propName] === undefined || obj[propName] === "") {
       delete obj[propName];
     }

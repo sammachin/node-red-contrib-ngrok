@@ -6,6 +6,7 @@
           port: {default: ""},
           creds: {value:"", type:"ngrokauth"},
           region:{default: 'us'},
+          proto:{default: 'http'},
           subdomain:{default: ""},
           name: {value:""},
           auth: {value: ""}
@@ -17,8 +18,8 @@
             return this.name||"ngrok";
         }
     });
-    
-    
+
+
 </script>
 
 <script type="text/x-red" data-template-name="ngrok">
@@ -26,12 +27,12 @@
       <label for="node-config-input-privatekey">authtoken</label>
       <input type="text" id="node-input-creds" >
     </div>
-    
+
     <div class="form-row">
         <label for="node-input-port">Port</label>
         <input type="text" id="node-input-port" placeholder="node-red current port">
     </div>
-    
+
     <div class="form-row">
         <label for="node-input-region">Region</label>
         <select type="text" id="node-input-region" style="width:70%;">
@@ -40,7 +41,15 @@
         <option value="ap">Asia</option>
          </select>
     </div>
-    
+
+    <div class="form-row">
+        <label for="node-input-region">Protocol</label>
+        <select type="text" id="node-input-proto" style="width:70%;">
+        <option value="http">HTTP</option>
+        <option value="tcp">TCP</option>
+         </select>
+    </div>
+
     <div class="form-row">
         <label for="node-input-subdomain">Subdomain</label>
         <input type="text" id="node-input-subdomain" placeholder="Name">
@@ -50,7 +59,7 @@
         <label for="node-input-auth">Auth</label>
         <input type="text" id="node-input-auth" placeholder="username:password">
     </div>
-    
+
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="ngrok">
@@ -58,9 +67,9 @@
 </script>
 
 <script type="text/x-red" data-help-name="ngrok">
-    <p>A node that wraps the ngrok controller and also adds the ngrok binary</p>
+    <p>A node that wraps the ngrok controller and also adds the ngrok binary.</p>
     
-
+    
     <h3>Inputs</h3>
     <dl class="message-properties">
         <dt><span class="property-type">object</span></dt>
@@ -72,7 +81,12 @@
          <dd> <code>msg.payload</code> will contain the ngrok public url that is established or null if the tunnel was stopped</dd>
      </dl>
 
-   
+    <h3>Dashboard</h3>
+    <p>Open up your ngrok dashboard at <a href="http://127.0.0.1:4040">http://127.0.0.1:4040</a>.
+    <br> It allows you to see the status of your tunnel, the requests made through it and the responses sent from your application. 
+    <br>You can also replay requests that came through the ngrok tunnel directly from the dashboard.
+    </p>
+     
     
 </script>
 
@@ -94,7 +108,7 @@
       <label for="node-config-input-authtoken">authtoken</label>
       <input type="text" id="node-config-input-authtoken" placeholder="token">
   </div>
-  
+
 </script>
 
 <script type="text/x-red" data-help-name="ngrokauth">
