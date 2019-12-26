@@ -1,5 +1,6 @@
 {
     "ngrok":{
+        "ngrok": "ngrok",
         "label":{
             "authtoken": "AuthToken",
             "region": "Region",
@@ -25,5 +26,8 @@
         "errors":{
             "empty_authtoken": "authtoken is empty"
         }
+    },
+    "ngrokauth":{
+        "ngrokauth": "authtoken"
     }
 }

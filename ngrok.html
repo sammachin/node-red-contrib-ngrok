@@ -32,7 +32,7 @@
         outputs: 1,
         icon: "white-globe.png",
         label: function () {
-            return this.name || "ngrok";
+            return this.name || this._("ngrok.ngrok");
         }
     });
 </script>
@@ -104,7 +104,7 @@
             authtoken: {},
         },
         label: function () {
-            return 'authtoken';
+            return this._("ngrokauth.ngrokauth");
         }
     });
 </script>
