@@ -34,7 +34,7 @@ describe("Ngrok Node", () => {
   describe("should make payload", () => {
     it("send on with authtoken", (done) => {
         const flow = [
-          { id: "n1", type: "ngrok", port: "1880", region:"us", creds: "creds", subdomain: "", name: "test", wires:[["n2"]] },
+          { id: "n1", type: "ngrok", port: "1880", region:"us", proto:"http", creds: "creds", subdomain: "", name: "test", wires:[["n2"]] },
           { id: "creds", type: "ngrokauth"},
           { id: "n2", type: "helper" }
         ];
@@ -52,7 +52,7 @@ describe("Ngrok Node", () => {
 
       it("send off", (done) => {
         const flow = [
-            { id: "n1", type: "ngrok", port: "1880", region:"us", creds: "creds", subdomain: "", name: "test", wires:[["n2"]] },
+            { id: "n1", type: "ngrok", port: "1880", region:"us", proto:"http", creds: "creds", subdomain: "", name: "test", wires:[["n2"]] },
             { id: "creds", type: "ngrokauth"},
             { id: "n2", type: "helper" }
         ];
@@ -69,7 +69,7 @@ describe("Ngrok Node", () => {
 
       it("send on with dummy authtoken", (done) => {
         const flow = [
-          { id: "n1", type: "ngrok", port: "1880", region:"us", creds: "creds", subdomain: "", name: "test", wires:[["n2"]] },
+          { id: "n1", type: "ngrok", port: "1880", region:"us", proto:"http", creds: "creds", subdomain: "", name: "test", wires:[["n2"]] },
           { id: "creds", type: "ngrokauth"},
           { id: "n2", type: "helper" }
         ];
@@ -97,5 +97,83 @@ describe("Ngrok Node", () => {
             n1.receive({ payload: "on" });
         });
       });
+  });
+
+  describe("change protocol", () => {
+    tests = ["http", "tcp"];
+    tests.forEach((test) =>{
+      it("protocol: " + test, (done) => {
+        const flow = [
+          { id: "n1", type: "ngrok", port: "1880", region:"us", proto:test, creds: "creds", subdomain: "", name: "test", wires:[["n2"]] },
+          { id: "creds", type: "ngrokauth"},
+          { id: "n2", type: "helper" }
+        ];
+        helper.load(node, flow, {n1:{auth:"test:test", }, creds:{authtoken:ngrok_authtoken}},() => {
+          const n2 = helper.getNode("n2");
+          const n1 = helper.getNode("n1");
+          n2.on("input", (msg) => {
+            should.exist(msg.payload);
+            isUrl(msg.payload).should.be.true();
+            done();
+          });
+          n1.receive({ payload: "on" });
+        });
+      });
+      it("send off", (done) => {
+        const flow = [
+            { id: "n1", type: "ngrok", port: "1880", region:"us", proto:"http", creds: "creds", subdomain: "", name: "test", wires:[["n2"]] },
+            { id: "creds", type: "ngrokauth"},
+            { id: "n2", type: "helper" }
+        ];
+        helper.load(node, flow, {n1:{auth:"test:test", }, creds:{authtoken:ngrok_authtoken}}, () => {
+          const n2 = helper.getNode("n2");
+          const n1 = helper.getNode("n1");
+          n2.on("input", (msg) => {
+            should.not.exist(msg.payload);
+            done();
+          });
+          n1.receive({ payload: "off" });
+        });
+      });
+    });  
+  });
+
+  describe("change region", () => {
+    tests = ["us","eu","ap","au","sa","jp","in"];
+    tests.forEach((test) =>{
+      it("region: " + test, (done) => {
+        const flow = [
+          { id: "n1", type: "ngrok", port: "1880", region: test, proto: "http", creds: "creds", subdomain: "", name: "test", wires:[["n2"]] },
+          { id: "creds", type: "ngrokauth"},
+          { id: "n2", type: "helper" }
+        ];
+        helper.load(node, flow, {n1:{auth:"test:test", }, creds:{authtoken:ngrok_authtoken}},() => {
+          const n2 = helper.getNode("n2");
+          const n1 = helper.getNode("n1");
+          n2.on("input", (msg) => {
+            should.exist(msg.payload);
+            isUrl(msg.payload).should.be.true();
+            done();
+          });
+          n1.receive({ payload: "on" });
+        });
+      });
+      it("send off", (done) => {
+        const flow = [
+            { id: "n1", type: "ngrok", port: "1880", region:"us", proto:"http", creds: "creds", subdomain: "", name: "test", wires:[["n2"]] },
+            { id: "creds", type: "ngrokauth"},
+            { id: "n2", type: "helper" }
+        ];
+        helper.load(node, flow, {n1:{auth:"test:test", }, creds:{authtoken:ngrok_authtoken}}, () => {
+          const n2 = helper.getNode("n2");
+          const n1 = helper.getNode("n1");
+          n2.on("input", (msg) => {
+            should.not.exist(msg.payload);
+            done();
+          });
+          n1.receive({ payload: "off" });
+        });
+      });
+    });
   });
 });

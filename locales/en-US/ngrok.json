@@ -5,13 +5,22 @@
             "region": "Region",
             "port": "Port",
             "subdomain": "SubDomain",
+            "protocol": "Protocol",
             "auth": "Auth"
         },
         "region":{
-            "us": "United States (Ohio)",
-            "eu": "Europe (Frankfurt)",
-            "ap": "Asia/Pacific (Singapore)",
-            "au": "Australia (Sydney)"
+            "us": "United States",
+            "eu": "Europe",
+            "ap": "Asia/Pacific",
+            "au": "Australia",
+            "sa": "South America",
+            "jp": "Japan",
+            "in": "India"
+    
+        },
+        "protocol":{
+            "http": "HTTP",
+            "tcp": "TCP"
         },
         "errors":{
             "empty_authtoken": "authtoken is empty"

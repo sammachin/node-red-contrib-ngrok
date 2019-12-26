@@ -1,6 +1,6 @@
 {
     "name": "node-red-contrib-ngrok",
-    "version": "0.1.3",
+    "version": "1.0.0",
     "description": "nodered node to wrap and control ngrok",
     "author": "Sam Machin",
     "license": "MIT",
@@ -10,22 +10,18 @@
         "url": "git://github.com/sammachin/node-red-contrib-ngrok.git"
     },
     "keywords": [
-        "node-red",
-        "ngrok"
+        "node-red"
     ],
-    "scripts": {
-        "test": "grunt"
-    },
     "node-red": {
         "nodes": {
             "ngrok": "ngrok.js"
         }
     },
     "dependencies": {
-        "dotenv": "^8.2.0",
         "ngrok": "^3.2.7"
     },
     "devDependencies": {
+        "dotenv": "^8.2.0",
         "grunt": "^1.0.4",
         "grunt-contrib-jshint": "^2.1.0",
         "grunt-jsonlint": "^2.0.0",
@@ -39,8 +35,5 @@
         "node-red": "^1.0.3",
         "node-red-node-test-helper": "^0.2.3",
         "should": "^13.2.3"
-    },
-    "engines": {
-        "node": ">=8.3.0"
     }
 }

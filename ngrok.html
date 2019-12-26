@@ -1,22 +1,38 @@
 <script type="text/javascript">
-    RED.nodes.registerType('ngrok',{
-        category: 'function',
+    RED.nodes.registerType('ngrok', {
+        category: 'network',
         color: '#008080',
         defaults: {
-          port: {value: "", validate:RED.validators.number()},
-          creds: {value: "", type:"ngrokauth"},
-          region:{value: "us"},
-          subdomain:{value: ""},
-          name: {value: ""}
+            port: {
+                value: ""
+            },
+            creds: {
+                value: "",
+                type: "ngrokauth"
+            },
+            region: {
+                value: 'us'
+            },
+            proto: {
+                value: 'http'
+            },
+            subdomain: {
+                value: ""
+            },
+            name: {
+                value: ""
+            }
         },
         credentials: {
-            auth: {type:"text"}
+            auth: {
+                type: "text"
+            }
         },
-        inputs:1,
-        outputs:1,
+        inputs: 1,
+        outputs: 1,
         icon: "white-globe.png",
-        label: function() {
-            return this.name||"ngrok";
+        label: function () {
+            return this.name || "ngrok";
         }
     });
 </script>
@@ -26,12 +42,12 @@
       <label for="node-config-input-privatekey"> <span data-i18n="ngrok.label.authtoken"></span></label>
       <input type="text" id="node-input-creds" >
     </div>
-    
+
     <div class="form-row">
         <label for="node-input-port"> <span data-i18n="ngrok.label.port"></span></label>
         <input type="text" id="node-input-port" placeholder="node-red current port">
     </div>
-    
+
     <div class="form-row">
         <label for="node-input-region"> <span data-i18n="ngrok.label.region"></span></label>
         <select type="text" id="node-input-region" style="width:70%;">
@@ -39,39 +55,62 @@
             <option value="eu" data-i18n="ngrok.region.eu"></option>
             <option value="ap" data-i18n="ngrok.region.ap"></option>
             <option value="au" data-i18n="ngrok.region.au"></option>
+            <option value="sa" data-i18n="ngrok.region.sa"></option>
+            <option value="jp" data-i18n="ngrok.region.jp"></option>
+            <option value="in" data-i18n="ngrok.region.in"></option>
         </select>
-    </div>
-    
-    <div class="form-row">
-        <label for="node-input-subdomain"> <span data-i18n="ngrok.label.subdomain"></span></label>
-        <input type="text" id="node-input-subdomain" placeholder="Name">
     </div>
 
     <div class="form-row">
-        <label for="node-input-auth"> <span data-i18n="ngrok.label.auth"></span></label>
+        <label for="node-input-region"> <span data-i18n="ngrok.label.protocol"></label>
+        <select type="text" id="node-input-proto" style="width:70%;" onchange="toggleProtocol(this.value)">
+        <option value="http" data-i18n="ngrok.protocol.http"></option>
+        <option value="tcp" data-i18n="ngrok.protocol.tcp"></option>
+         </select>
+    </div>
+
+    <div id="subdomain" class="form-row">
+        <label for="node-input-subdomain"> <span data-i18n="ngrok.label.subdomain"></label>
+        <input type="text" id="node-input-subdomain" placeholder="Name">
+    </div>
+
+    <div id="auth" class="form-row">
+        <label for="node-input-auth">Auth</label>
         <input type="text" id="node-input-auth" placeholder="username:password">
     </div>
-    
+
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> <span data-i18n="node-red:common.label.name"></span></label>
         <input type="text" id="node-input-name" placeholder="ngrok">
     </div>
 </script>
 
+<script>
+    function toggleProtocol(proto) {
+        if (proto == 'http') {
+            document.getElementById("subdomain").style.display = "block";
+            document.getElementById("auth").style.display = "block";
+        } else if (proto == 'tcp') {
+            document.getElementById("subdomain").style.display = "none";
+            document.getElementById("auth").style.display = "none";
+        }
+    };
+</script>
+
 <script type="text/javascript">
-    RED.nodes.registerType('ngrokauth',{
+    RED.nodes.registerType('ngrokauth', {
         category: 'config',
         credentials: {
-          authtoken: {},
+            authtoken: {},
         },
-        label: function() {
+        label: function () {
             return 'authtoken';
         }
     });
 </script>
 
 <script type="text/x-red" data-template-name="ngrokauth">
-  <div class="form-row">
+    <div class="form-row">
       <label for="node-config-input-authtoken"> <span data-i18n="ngrok.label.authtoken"></span></label>
       <input type="text" id="node-config-input-authtoken" placeholder="token">
   </div>
