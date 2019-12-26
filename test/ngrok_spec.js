@@ -119,22 +119,6 @@ describe("Ngrok Node", () => {
           n1.receive({ payload: "on" });
         });
       });
-      it("send off", (done) => {
-        const flow = [
-            { id: "n1", type: "ngrok", port: "1880", region:"us", proto:"http", creds: "creds", subdomain: "", name: "test", wires:[["n2"]] },
-            { id: "creds", type: "ngrokauth"},
-            { id: "n2", type: "helper" }
-        ];
-        helper.load(node, flow, {n1:{auth:"test:test", }, creds:{authtoken:ngrok_authtoken}}, () => {
-          const n2 = helper.getNode("n2");
-          const n1 = helper.getNode("n1");
-          n2.on("input", (msg) => {
-            should.not.exist(msg.payload);
-            done();
-          });
-          n1.receive({ payload: "off" });
-        });
-      });
     });  
   });
 
@@ -156,22 +140,6 @@ describe("Ngrok Node", () => {
             done();
           });
           n1.receive({ payload: "on" });
-        });
-      });
-      it("send off", (done) => {
-        const flow = [
-            { id: "n1", type: "ngrok", port: "1880", region:"us", proto:"http", creds: "creds", subdomain: "", name: "test", wires:[["n2"]] },
-            { id: "creds", type: "ngrokauth"},
-            { id: "n2", type: "helper" }
-        ];
-        helper.load(node, flow, {n1:{auth:"test:test", }, creds:{authtoken:ngrok_authtoken}}, () => {
-          const n2 = helper.getNode("n2");
-          const n1 = helper.getNode("n1");
-          n2.on("input", (msg) => {
-            should.not.exist(msg.payload);
-            done();
-          });
-          n1.receive({ payload: "off" });
         });
       });
     });

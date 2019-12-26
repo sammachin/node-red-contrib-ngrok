@@ -48,6 +48,7 @@ module.exports = function(RED) {
               }
               (async function(){
                 try {
+                  await ng.kill();
                   const url = await ng.connect(options);
                   msg.payload = url;
                   node.send(msg);
