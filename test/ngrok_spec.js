@@ -31,13 +31,13 @@ describe("Ngrok Node", () => {
   });
 
   describe("should make payload", () => {
-    it("send on with authtoken", (done) => {
+    (ngrok_authtoken ? it : it.skip)("send on with authtoken", (done) => {
         const flow = [
           { id: "n1", type: "ngrok", port: "1880", region:"us", proto:"http", creds: "creds", subdomain: "", name: "test", wires:[["n2"]] },
           { id: "creds", type: "ngrokauth"},
           { id: "n2", type: "helper" }
         ];
-        helper.load(node, flow, {n1:{auth:"test:test", }, creds:{authtoken:ngrok_authtoken}},() => {
+        helper.load(node, flow, {n1:{auth:"test:test"}, creds:{authtoken:ngrok_authtoken}},() => {
           const n2 = helper.getNode("n2");
           const n1 = helper.getNode("n1");
           n2.on("input", (msg) => {
@@ -98,7 +98,7 @@ describe("Ngrok Node", () => {
       });
   });
 
-  describe("change protocol", () => {
+  (ngrok_authtoken ? describe : describe.skip)("change protocol", () => {
     tests = ["http", "tcp"];
     tests.forEach((test) =>{
       it("protocol: " + test, (done) => {
@@ -121,7 +121,7 @@ describe("Ngrok Node", () => {
     });  
   });
 
-  describe("change region", () => {
+  (ngrok_authtoken ? describe : describe.skip)("change region", () => {
     tests = ["us","eu","ap","au","sa","jp","in"];
     tests.forEach((test) =>{
       it("region: " + test, (done) => {
