@@ -9,6 +9,9 @@
         "type": "git",
         "url": "git://github.com/sammachin/node-red-contrib-ngrok.git"
     },
+    "scripts": {
+        "test": "grunt"
+    },
     "keywords": [
         "node-red"
     ],
