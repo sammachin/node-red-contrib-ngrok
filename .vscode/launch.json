@@ -13,12 +13,13 @@
                 "--timeout",
                 "10000",
                 "--colors",
-                "${file}"
+                "${workspaceFolder}/test/*_spec.js"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "skipFiles": [
                 "<node_internals>/**"
-            ]
+            ],
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
