@@ -4,12 +4,11 @@ const helper = require("node-red-node-test-helper");
 helper.init(require.resolve("node-red"));
 
 const node = require("../ngrok");
-let ngrok_authtoken;
+const ngrok_authtoken = process.env.NGROK_AUTH_TOKEN;
 
 describe("Ngrok Node", () => {
 
   before(function(done) {
-    ngrok_authtoken = process.env.NGROK_AUTH_TOKEN;
     helper.startServer(done);
   });
 
