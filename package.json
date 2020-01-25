@@ -26,14 +26,14 @@
     "devDependencies": {
         "grunt": "^1.0.4",
         "grunt-contrib-jshint": "^2.1.0",
-        "grunt-jsonlint": "^2.0.0",
+        "grunt-jsonlint": "^2.1.1",
         "grunt-lint-inline": "^1.0.0",
         "grunt-mocha-istanbul": "^5.0.2",
         "grunt-nr-locales-htmllint": "^1.0.6",
         "grunt-simple-mocha": "^0.4.1",
         "is-url": "^1.2.4",
         "istanbul": "^1.1.0-alpha.1",
-        "mocha": "^6.2.2",
+        "mocha": "^7.0.0",
         "node-red": "^1.0.3",
         "node-red-node-test-helper": "^0.2.3",
         "should": "^13.2.3"
