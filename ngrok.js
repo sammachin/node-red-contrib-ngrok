@@ -37,7 +37,7 @@ module.exports = function(RED) {
             }
 
             clean(options);
-            if (msg.payload == 'on'){
+            if (msg.payload == 'on' || msg.payload == true){
               (async function(){
                 try {
                   const url = await ng.connect(options);
@@ -49,7 +49,7 @@ module.exports = function(RED) {
                 }
               })();
           }
-          else if (msg.payload == 'off'){
+          else{
               (async function(){
                   await ng.kill();
                   msg.payload = null;
@@ -72,6 +72,23 @@ module.exports = function(RED) {
      authtoken: {type:"text"}
    }
  });
+
+
+ RED.httpAdmin.post("/ngrokInject/:id", RED.auth.needsPermission("inject.write"), function(req,res) {
+  var node = RED.nodes.getNode(req.params.id);
+  if (node != null) {
+      try {
+          var state = (req.body.on == 'true');
+          node.receive({payload: state});
+          res.sendStatus(200);
+      } catch(err) {
+          res.sendStatus(500);
+          node.error(RED._("inject.failed",{error:err.toString()}));
+      }
+  } else {
+      res.sendStatus(404);
+  }
+});
 }
 
 function clean(obj) {
@@ -80,4 +97,5 @@ function clean(obj) {
       delete obj[propName];
     }
   }
+
 }
