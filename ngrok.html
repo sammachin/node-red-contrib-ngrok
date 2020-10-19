@@ -10,15 +10,27 @@
           proto:{default: 'http'},
           subdomain:{default: ""},
           name: {value:""},
-          auth: {value: ""}
+          auth: {value: ""},
+          inputtype: {value: ""},
+          inputs: {value: ""}
         },
-        inputs:1,
-        outputs:1,
+        inputs: 0,
+        outputs: 1,
         icon: "white-globe.png",
-        lable: function() {
+        label: function() {
             return this.name||"ngrok";
         },
+        oneditsave: function (){
+            this.inputs.value = $("#node-input-inputs").val()
+        },
         button: {
+            visible: function() {
+                if (this.inputtype == 'button') {
+                    return true
+                } else {
+                    return false
+                }
+            },
             toggle: "buttonState",
             onclick: function() {
                 var node = this;
@@ -94,6 +106,15 @@
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="ngrok">
     </div>
+
+    <div class="form-row">
+        <label for="node-input-inputtype">Input Type</label>
+        <select type="text" id="node-input-inputtype" style="width:70%;" onchange="toggleInputType(this.value)"">
+        <option value="button">Button</option>
+        <option value="port">Input Port</option>
+    </select>
+    <input type='hidden' id="node-input-inputs">
+    </div>
 </script>
 
 
@@ -109,6 +130,13 @@
       document.getElementById("auth").style.display = "none";
     }
   };
+  function toggleInputType(v){
+    if (v == 'button') {
+        $("#node-input-inputs").val(0)
+    } else if (v == 'port') {
+        $("#node-input-inputs").val(1)
+    }    
+  }
 </script>
 
 <script type="text/x-red" data-help-name="ngrok">
