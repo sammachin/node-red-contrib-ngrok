@@ -9,6 +9,7 @@ module.exports = function(RED) {
         this.region = config.region;
         this.auth = config.auth;
         this.proto = config.proto;
+        this.bind_tls = config.bind_tls;
         if (RED.nodes.getNode(config.creds) == null){
           this.authtoken = "";
         } else {
@@ -26,6 +27,7 @@ module.exports = function(RED) {
                 subdomain: this.subdomain,
                 authtoken: this.authtoken,
                 region: this.region,
+                bind_tls: this.bind_tls
             }
             
             if (this.auth) {
@@ -40,6 +42,8 @@ module.exports = function(RED) {
             if (msg.payload == 'on' || msg.payload == true){
               (async function(){
                 try {
+                  //Disconnect once before reconnecting
+                  await ng.kill();
                   const url = await ng.connect(options);
                   msg.payload = url;
                   node.send(msg);

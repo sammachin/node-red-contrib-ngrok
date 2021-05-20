@@ -8,13 +8,14 @@
           creds: {value:"", type:"ngrokauth"},
           region:{default: 'us'},
           proto:{default: 'http'},
+		  bind_tls:{default: false},
           subdomain:{default: ""},
           name: {value:""},
           auth: {value: ""},
-          inputtype: {value: ""},
+          inputtype: {value: "port"},
           inputs: {value: ""}
         },
-        inputs: 0,
+        inputs: 1,
         outputs: 1,
         icon: "white-globe.png",
         label: function() {
@@ -56,14 +57,12 @@
             }
         }
     });
-
-
 </script>
 
 <script type="text/x-red" data-template-name="ngrok">
     <div class="form-row">
-      <label for="node-config-input-privatekey">authtoken</label>
-      <input type="text" id="node-input-creds" >
+        <label for="node-config-input-privatekey">Authtoken</label>
+        <input type="text" id="node-input-creds" >
     </div>
 
     <div class="form-row">
@@ -74,22 +73,31 @@
     <div class="form-row">
         <label for="node-input-region">Region</label>
         <select type="text" id="node-input-region" style="width:70%;">
-        <option value="us">US</option>
-        <option value="eu">Europe</option>
-        <option value="ap">Asia/Pacific</option>
-        <option value="au">Australia</option>
-        <option value="sa">South America</option>
-        <option value="jp">Japan</option>
-        <option value="in">India</option>
-         </select>
+            <option value="us">US</option>
+            <option value="eu">Europe</option>
+            <option value="ap">Asia/Pacific</option>
+            <option value="au">Australia</option>
+            <option value="sa">South America</option>
+            <option value="jp">Japan</option>
+            <option value="in">India</option>
+        </select>
     </div>
 
     <div class="form-row">
-        <label for="node-input-region">Protocol</label>
+        <label for="node-input-proto">Protocol</label>
         <select type="text" id="node-input-proto" style="width:70%;" onchange="toggleProtocol(this.value)">
-        <option value="http">HTTP</option>
-        <option value="tcp">TCP</option>
-         </select>
+            <option value="http">HTTP</option>
+            <option value="tcp">TCP</option>
+        </select>
+    </div>
+
+    <div id="bind_tls" class="form-row">
+        <label for="node-input-bind_tls">Binding</label>
+        <select type="text" id="node-input-bind_tls" style="width:70%;">
+            <option value="true">HTTPS endpoint</option>
+            <option value="false">HTTP endpoint</option>
+	    <option value="both">Both endpoints</option>
+        </select>
     </div>
 
     <div id="subdomain" class="form-row">
@@ -109,10 +117,10 @@
 
     <div class="form-row">
         <label for="node-input-inputtype">Input Type</label>
-        <select type="text" id="node-input-inputtype" style="width:70%;" onchange="toggleInputType(this.value)"">
-        <option value="button">Button</option>
-        <option value="port">Input Port</option>
-    </select>
+        <select type="text" id="node-input-inputtype" style="width:70%;" onchange="toggleInputType(this.value)">
+            <option value="button">Button</option>
+            <option value="port">Input Port</option>
+        </select>
     <input type='hidden' id="node-input-inputs">
     </div>
 </script>
@@ -124,10 +132,12 @@
     if (proto == 'http'){
       document.getElementById("subdomain").style.display = "block";
       document.getElementById("auth").style.display = "block";
+      document.getElementById("bind_tls").style.display = "block";
     }
     else if (proto == 'tcp'){
       document.getElementById("subdomain").style.display = "none";
       document.getElementById("auth").style.display = "none";
+      document.getElementById("bind_tls").style.display = "none";
     }
   };
   function toggleInputType(v){

@@ -1,4 +1,4 @@
-# node-red-contrib-ngrok
+# node-red-alerox-ngrok
 
 This is a wrapper to expose and manage the popular tunnelling service [ngrok](https://ngrok.com) within node red
 
