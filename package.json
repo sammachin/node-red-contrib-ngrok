@@ -4,10 +4,10 @@
     "description": "nodered node to wrap and control ngrok",
     "author": "Sam Machin",
     "license": "MIT",
-    "homepage": "https://github.com/zeldalegends/node-red-contrib-ngrok",
+    "homepage": "https://github.com/sammachin/node-red-contrib-ngrok",
     "repository": {
         "type": "git",
-        "url": "git://github.com/zeldalegends/node-red-contrib-ngrok.git"
+        "url": "git://github.com/sammachin/node-red-contrib-ngrok.git"
     },
     "keywords": [ "node-red" ],
     "node-red": {
