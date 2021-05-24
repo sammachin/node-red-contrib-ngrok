@@ -96,7 +96,7 @@
         <select type="text" id="node-input-bind_tls" style="width:70%;">
             <option value="true">HTTPS endpoint</option>
             <option value="false">HTTP endpoint</option>
-	    <option value="both">Both endpoints</option>
+	        <option value="both">Both endpoints</option>
         </select>
     </div>
 
@@ -178,10 +178,13 @@
     RED.nodes.registerType('ngrokauth',{
         category: 'config',
         credentials: {
-          authtoken: {},
+          authtoken: {}
+        },
+        defaults :{
+            name: {}
         },
         label: function() {
-            return 'authtoken';
+            return this.name || "authtoken";
         }
     });
 </script>
@@ -190,6 +193,10 @@
   <div class="form-row">
       <label for="node-config-input-authtoken">authtoken</label>
       <input type="text" id="node-config-input-authtoken" placeholder="token">
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-name">Name</label>
+    <input type="text" id="node-config-input-name" placeholder="name">
   </div>
 
 </script>

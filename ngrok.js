@@ -68,6 +68,7 @@ module.exports = function(RED) {
   function ngrokauth(n){
      RED.nodes.createNode(this, n);
      this.authtoken = n.authtoken;
+     this.name = n.name;
   }
 
  RED.nodes.registerType("ngrok",ngrok);
