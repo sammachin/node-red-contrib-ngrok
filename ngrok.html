@@ -221,28 +221,36 @@
   }
 </script>
 
-<script type="text/x-red" data-help-name="ngrok">
+<script type="text/html" data-help-name="ngrok">
     <p>A node that wraps the ngrok controller and also adds the ngrok binary.</p>
-    
-    
+
     <h3>Inputs</h3>
     <dl class="message-properties">
-        <dt><span class="property-type">object</span></dt>
-        <dd> <code>msg.payload</code> is either <code>on</code> or <code>off</code> to start/stop the tunnel</dd>
+        <dt>payload<span class="property-type">string | boolean</span></dt>
+        <dd> Set <code>msg.payload</code> to either <code>"on"</code> or <code>true</code> to start the tunnel.  Set <code>msg.payload</code> to either <code>"off"</code> or <code>false</code> to stop the tunnel. </dd>
     </dl>
      <h3>Outputs</h3>
      <dl class="message-properties">
-         <dt><span class="property-type">object</span></dt>
+         <dt>payload<span class="property-type">string</span></dt>
          <dd> <code>msg.payload</code> will contain the ngrok public url that is established or null if the tunnel was stopped</dd>
      </dl>
 
-    <h3>Dashboard</h3>
+    <h3>Properties</h3>
+    <p><code>Port</code> - allows you to specify the port number. Leave blank to use the port number of this instance of node-red</p>
+    <p><code>Region</code> - allows you to specify the region number. Make sure the region you specify matches the region in which you reserved your domain</p>
+    <p><code>Protocol</code> - tunnel protocol name, one of http or tcp</p>
+    <p><code>Binding</code> - bind an HTTPS or HTTP endpoint or both. Expected values are true, false, or both. It is STRONGLY recommended this be set to true for HTTPS</p>
+    <p><code>Subdomain</code> - allows you to specify a subdomain e.g. setting this to fred will use reserved tunnel name https://fred.ngrok.io NOTE: This option requires a paid subscription to ngrok</p>
+    <p><code>Auth</code> - this is the username and password ngrok will request before permitting connection. The format must be <code>username:password</code>. It is STRONGLY recommended you set this value</p>
+    <p><code>Host header</code> - allows you to rewrite the HTTP Host header to this value</p>
+    <p>Refer to <a target="_blank" href="https://www.npmjs.com/package/ngrok#options">connection options</a> for more details</p>
+
+    <h3>Ngrok Dashboard</h3>
     <p>Open up your ngrok dashboard at <a href="http://127.0.0.1:4040">http://127.0.0.1:4040</a>.
-    <br> It allows you to see the status of your tunnel, the requests made through it and the responses sent from your application. 
+    <br>It allows you to see the status of your tunnel, the requests made through it and the responses sent from your application. 
     <br>You can also replay requests that came through the ngrok tunnel directly from the dashboard.
     </p>
-     
-    
+
 </script>
 
 
@@ -276,5 +284,5 @@
 <script type="text/html" data-help-name="ngrokauth">
    <p>Ngrok authtoken </p>
    <h3>Details</h3>
-   <p> You can optionally set an authtoken obtained from ngrok.com, this is required for accesspaid features such as reserved names</p>
+   <p> You can optionally set an authtoken obtained from ngrok.com, this is required for paid features such as reserved subdomain names</p>
 </script>
