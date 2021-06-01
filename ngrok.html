@@ -10,7 +10,6 @@
             region: { value: 'us' },
             regionType: { value: 'us' },
             proto: { value: 'http' },
-            protoType: { value: 'http' },
             bind_tls: { value: "https" },
             bind_tlsType: { value: "https" },
             subdomain: { value: "" },
@@ -30,7 +29,7 @@
             return this.name || "ngrok";
         },
         oneditprepare: function () {
-            debugger
+            
             var makeTypedInputOpt = function (label, value) {
                 return {
                     value: value,
@@ -52,15 +51,7 @@
                 ],
                 typeField: $("#node-input-regionType"),
             })
-            $("#node-input-proto").typedInput({
-                default: "http",
-                types: [
-                    makeTypedInputOpt("HTTP", "http"),
-                    makeTypedInputOpt("TCP", "tcp"),
-                    , 'msg', 'flow', 'global', 'env'
-                ],
-                typeField: $("#node-input-protoType"),
-            })
+
             $("#node-input-port").typedInput({
                 default: "num",
                 types: ['num', 'msg', 'flow', 'global', 'env'
@@ -95,6 +86,11 @@
                 ],
                 typeField: $("#node-input-hostHeader"),
             })
+            //ensure valid protocol choice
+            if(this.proto !== "tcp" && this.proto !== "http") {
+                this.proto = "http";
+                $("#node-input-proto").val(this.proto);
+            }
         },
         oneditsave: function () {
             this.inputs.value = $("#node-input-inputs").val()
@@ -141,6 +137,14 @@
     </div>
 
     <div class="form-row">
+        <label for="node-input-proto">Protocol</label>
+        <select type="text" id="node-input-proto" style="width:70%;" onchange="toggleProtocol(this.value)">
+            <option value="http">HTTP</option>
+            <option value="tcp">TCP</option>
+        </select>
+    </div>
+
+    <div class="form-row">
         <label for="node-input-port">Port</label>
         <input type="hidden" id="node-input-portType">
         <input type="text" id="node-input-port" placeholder="node-red current port">
@@ -152,31 +156,25 @@
         <input type="text" id="node-input-region" placeholder="region">
     </div>
 
-    <div class="form-row">
-        <label for="node-input-proto">Protocol</label>
-        <input type="hidden" id="node-input-protoType">
-        <input type="text" id="node-input-proto" placeholder="Protocol">
-    </div>
-
-    <div id="bind_tls" class="form-row">
+    <div id="node-ngrok-bind_tls" class="form-row">
         <label for="node-input-bind_tls">Binding</label>
         <input type="hidden" id="node-input-bind_tlsType">
         <input type="text" id="node-input-bind_tls" placeholder="https/http/both">
     </div>
 
-    <div id="subdomain" class="form-row">
+    <div id="node-ngrok-subdomain" class="form-row">
         <label for="node-input-subdomain">Subdomain</label>
         <input type="hidden" id="node-input-subdomainType">
         <input type="text" id="node-input-subdomain" placeholder="Name">
     </div>
 
-    <div id="auth" class="form-row">
+    <div id="node-ngrok-auth" class="form-row">
         <label for="node-input-auth">Auth</label>
         <input type="hidden" id="node-input-authType">
         <input type="text" id="node-input-auth" placeholder="username:password">
     </div>
 
-    <div id="auth" class="form-row">
+    <div id="node-ngrok-hostHeader" class="form-row">
         <label for="node-input-hostHeader">Host header</label>
         <input type="hidden" id="node-input-hostHeaderType">
         <input type="text" id="node-input-hostHeader" placeholder="localhost:port">
@@ -200,25 +198,27 @@
 
 
 <script>
-  function toggleProtocol(proto){
-    if (proto == 'http'){
-      document.getElementById("subdomain").style.display = "block";
-      document.getElementById("auth").style.display = "block";
-      document.getElementById("bind_tls").style.display = "block";
+    function toggleProtocol(proto) {
+        if (proto == 'http') {
+            document.getElementById("node-ngrok-subdomain").style.display = "block";
+            document.getElementById("node-ngrok-auth").style.display = "block";
+            document.getElementById("node-ngrok-bind_tls").style.display = "block";
+            document.getElementById("node-ngrok-hostHeader").style.display = "block";
+        }
+        else if (proto == 'tcp') {
+            document.getElementById("node-ngrok-subdomain").style.display = "none";
+            document.getElementById("node-ngrok-auth").style.display = "none";
+            document.getElementById("node-ngrok-bind_tls").style.display = "none";
+            document.getElementById("node-ngrok-hostHeader").style.display = "none";
+        }
     }
-    else if (proto == 'tcp'){
-      document.getElementById("subdomain").style.display = "none";
-      document.getElementById("auth").style.display = "none";
-      document.getElementById("bind_tls").style.display = "none";
+    function toggleInputType(v) {
+        if (v == 'button') {
+            $("#node-input-inputs").val(0)
+        } else if (v == 'port') {
+            $("#node-input-inputs").val(1)
+        }
     }
-  };
-  function toggleInputType(v){
-    if (v == 'button') {
-        $("#node-input-inputs").val(0)
-    } else if (v == 'port') {
-        $("#node-input-inputs").val(1)
-    }    
-  }
 </script>
 
 <script type="text/html" data-help-name="ngrok">
@@ -236,13 +236,13 @@
      </dl>
 
     <h3>Properties</h3>
+    <p><code>Protocol</code> - tunnel protocol. Available options are "http" or "tcp"</p>
     <p><code>Port</code> - allows you to specify the port number. Leave blank to use the port number of this instance of node-red</p>
     <p><code>Region</code> - allows you to specify the region number. Make sure the region you specify matches the region in which you reserved your domain</p>
-    <p><code>Protocol</code> - tunnel protocol name, one of http or tcp</p>
-    <p><code>Binding</code> - bind an HTTPS or HTTP endpoint or both. Expected values are true, false, or both. It is STRONGLY recommended this be set to true for HTTPS</p>
-    <p><code>Subdomain</code> - allows you to specify a subdomain e.g. setting this to fred will use reserved tunnel name https://fred.ngrok.io NOTE: This option requires a paid subscription to ngrok</p>
-    <p><code>Auth</code> - this is the username and password ngrok will request before permitting connection. The format must be <code>username:password</code>. It is STRONGLY recommended you set this value</p>
-    <p><code>Host header</code> - allows you to rewrite the HTTP Host header to this value</p>
+    <p><code>Binding</code> - bind an HTTPS or HTTP endpoint or both. Expected values are true, false, or both. It is STRONGLY recommended this be set to true for HTTPS. Only valid when protocol is "http"</p>
+    <p><code>Subdomain</code> - allows you to specify a subdomain e.g. setting this to fred will use reserved tunnel name https://fred.ngrok.io NOTE: This option requires a paid subscription to ngrok. Only valid when protocol is "http"</p>
+    <p><code>Auth</code> - this is the username and password ngrok will request before permitting connection. The format must be <code>username:password</code>. It is STRONGLY recommended you set this value. Only valid when protocol is "http"</p>
+    <p><code>Host header</code> - allows you to rewrite the HTTP Host header to this value. Only valid when protocol is "http"</p>
     <p>Refer to <a target="_blank" href="https://www.npmjs.com/package/ngrok#options">connection options</a> for more details</p>
 
     <h3>Ngrok Dashboard</h3>

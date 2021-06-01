@@ -13,8 +13,7 @@ module.exports = function (RED) {
     node.portType = config.portType || "num";
     node.region = config.region;
     node.regionType = config.regionType || "us";
-    node.proto = config.proto;
-    node.protoType = config.protoType || "http";
+    node.proto = config.proto || "http";
     node.bind_tls = config.bind_tls;
     node.bind_tlsType = config.bind_tlsType || "https";
     node.subdomain = config.subdomain;
@@ -41,56 +40,58 @@ module.exports = function (RED) {
         })();
 
       } else if (msg.payload == 'on' || msg.payload == true) {
-        let _proto;
-        if (proto_types.indexOf(node.protoType) >= 0) {
-          _proto = node.protoType;
+        let _port, _proto, _region, _bind_tls, _auth, _host_header;
+
+        _port = RED.util.evaluateNodeProperty(node.port, node.portType, node, msg);
+
+        if (proto_types.indexOf(node.proto) >= 0) {
+          _proto = node.proto;
         } else {
-          _proto = RED.util.evaluateNodeProperty(node.proto, node.protoType, node, msg);
+          node.error("Invalid protocol type", msg);
+          return;
         }
 
-        let _region;
         if (region_types.indexOf(node.regionType) >= 0) {
           _region = node.regionType;
         } else {
           _region = RED.util.evaluateNodeProperty(node.region, node.regionType, node, msg);
         }
 
-        let _bind_tls;
-        if (bind_tls_types.indexOf(node.bind_tlsType) >= 0) {
-          _bind_tls = node.bind_tlsType;
-        } else {
-          _bind_tls = RED.util.evaluateNodeProperty(node.bind_tls, node.bind_tlsType, node, msg);
-        }
+        if (_proto !== "tcp" || _proto !== "http") {
+          //binding
+          if (bind_tls_types.indexOf(node.bind_tlsType) >= 0) {
+            _bind_tls = node.bind_tlsType;
+          } else {
+            _bind_tls = RED.util.evaluateNodeProperty(node.bind_tls, node.bind_tlsType, node, msg);
+          }
+          //subdomain
+          _subdomain = RED.util.evaluateNodeProperty(node.subdomain, node.subdomainType, node, msg);
+          //auth
+          if (node.authType == "none") {
+            _auth = null;
+          } else {
+            _auth = RED.util.evaluateNodeProperty(node.auth, node.authType, node, msg);
+          }
+          //host-header
+          if (node.hostHeaderType == "none") {
+            _host_header = null;
+          } else {
+            _host_header = RED.util.evaluateNodeProperty(node.hostHeader, node.hostHeaderType, node, msg);
+          }
 
-        let _host_header;
-        if (node.hostHeaderType == "none") {
-          _host_header = null;
-        } else {
-          _host_header = RED.util.evaluateNodeProperty(node.hostHeader, node.hostHeaderType, node, msg);
-        }
-
-        let _auth;
-        if (node.authType == "none") {
-          _auth = null;
-        } else {
-          _auth = RED.util.evaluateNodeProperty(node.auth, node.authType, node, msg);
-        }
-
-        let _port = RED.util.evaluateNodeProperty(node.port, node.portType, node, msg);
-        let _subdomain = RED.util.evaluateNodeProperty(node.subdomain, node.subdomainType, node, msg);
-
-        //ensure _bind_tls is valid
-        switch (_bind_tls) {
-          case "false":
-          case false:
-          case "http":
-            _bind_tls = "false"
-            break
-          case "both":
-            _bind_tls = "both"
-            break
-          default:
-            _bind_tls = "true"//default to secure
+          //ensure binding is valid
+          switch (_bind_tls) {
+            case "false":
+            case false:
+            case "http":
+              _bind_tls = "false"
+              break
+            case "both":
+              _bind_tls = "both"
+              break
+            default:
+              _bind_tls = "true"//default to secure
+          }
         }
 
         //ensure port is something
