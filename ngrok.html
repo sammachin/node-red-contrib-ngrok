@@ -238,15 +238,15 @@
     <h3>Properties</h3>
     <p><code>Protocol</code> - tunnel protocol. Available options are "http" or "tcp"</p>
     <p><code>Port</code> - allows you to specify the local port number. Set to "node-red port" to use the current node-red port number</p>
-    <p><code>Region</code> - allows you to specify the region. Make sure the region you specify matches the region in which you reserved your domain. The value should be one of the following...
+    <p><code>Region</code> - allows you to specify the region. Make sure the region you specify matches the region in which you reserved your domain. Expected values are...
         <ul>
-            <li>US - use <code>eu</code></li>
-            <li>Europe - use <code>eu</code></li>
-            <li>Asia/Pacific - use <code>ap</code></li>
-            <li>Australia - use <code>au</code></li>
-            <li>South America - use <code>sa</code></li>
-            <li>Japan - use <code>jp</code></li>
-            <li>India - use <code>in</code></li>
+            <li><code>us</code> - US</li>
+            <li><code>eu</code> - Europe</li>
+            <li><code>ap</code> - Asia/Pacific</li>
+            <li><code>au</code> - Australia</li>
+            <li><code>sa</code> - South America</li>
+            <li><code>jp</code> - Japan</li>
+            <li><code>in</code> - India</li>
         </ul>
     </p>
     <p><code>Binding</code> - bind an HTTPS or HTTP endpoint or both. Expected values are <code>true</code>, <code>false</code>, or <code>both</code>. It is STRONGLY recommended this be set to true for HTTPS. Only valid when protocol is "http"</p>
