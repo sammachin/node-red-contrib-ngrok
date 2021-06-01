@@ -1,31 +1,106 @@
 <script type="text/javascript">
-    RED.nodes.registerType('ngrok',{
+    RED.nodes.registerType('ngrok', {
         category: 'network',
         color: '#008080',
         defaults: {
-          buttonState: {value: false},
-          port: {default: ""},
-          creds: {value:"", type:"ngrokauth"},
-          region:{default: 'us'},
-          proto:{default: 'http'},
-		  bind_tls:{default: false},
-          subdomain:{default: ""},
-          name: {value:""},
-          auth: {value: ""},
-          inputtype: {value: "port"},
-          inputs: {value: ""}
+            buttonState: { value: false },
+            port: { value: "" },
+            portType: { value: "num" },
+            creds: { value: "", type: "ngrokauth" },
+            region: { value: 'us' },
+            regionType: { value: 'us' },
+            proto: { value: 'http' },
+            protoType: { value: 'http' },
+            bind_tls: { value: "https" },
+            bind_tlsType: { value: "https" },
+            subdomain: { value: "" },
+            subdomainType: { value: "none" },
+            auth: { value: "" },
+            authType: { value: "str" },
+            hostHeader: { value: "" },
+            hostHeaderType: { value: "none" },
+            name: { value: "" },
+            inputtype: { value: "port" },
+            inputs: { value: "" }
         },
         inputs: 1,
         outputs: 1,
         icon: "white-globe.png",
-        label: function() {
-            return this.name||"ngrok";
+        label: function () {
+            return this.name || "ngrok";
         },
-        oneditsave: function (){
+        oneditprepare: function () {
+            debugger
+            var makeTypedInputOpt = function (label, value) {
+                return {
+                    value: value,
+                    label: label,
+                    hasValue: false
+                }
+            }
+            $("#node-input-region").typedInput({
+                default: "us",
+                types: [
+                    makeTypedInputOpt("US", "us"),
+                    makeTypedInputOpt("Europe", "eu"),
+                    makeTypedInputOpt("Asia/Pacific", "ap"),
+                    makeTypedInputOpt("Australia", "au"),
+                    makeTypedInputOpt("South America", "sa"),
+                    makeTypedInputOpt("Japan", "jp"),
+                    makeTypedInputOpt("India", "in"),
+                    , 'msg', 'flow', 'global', 'str', 'env'
+                ],
+                typeField: $("#node-input-regionType"),
+            })
+            $("#node-input-proto").typedInput({
+                default: "http",
+                types: [
+                    makeTypedInputOpt("HTTP", "http"),
+                    makeTypedInputOpt("TCP", "tcp"),
+                    , 'msg', 'flow', 'global', 'env'
+                ],
+                typeField: $("#node-input-protoType"),
+            })
+            $("#node-input-port").typedInput({
+                default: "num",
+                types: ['num', 'msg', 'flow', 'global', 'env'
+                ],
+                typeField: $("#node-input-portType"),
+            })
+            $("#node-input-subdomain").typedInput({
+                default: "none",
+                types: [makeTypedInputOpt("None", "none"), 'str', 'msg', 'flow', 'global', 'env'
+                ],
+                typeField: $("#node-input-subdomainType"),
+            })
+            $("#node-input-bind_tls").typedInput({
+                default: "https",
+                types: [
+                    makeTypedInputOpt("HTTPS", "https"),
+                    makeTypedInputOpt("HTTP", "http"),
+                    makeTypedInputOpt("HTTP & HTTPS", "both"),
+                    'msg', 'flow', 'global', 'env'
+                ],
+                typeField: $("#node-input-bind_tlsType"),
+            })
+            $("#node-input-auth").typedInput({
+                default: "str",
+                types: [makeTypedInputOpt("None", "none"), 'str', 'msg', 'flow', 'global', 'env'
+                ],
+                typeField: $("#node-input-authType"),
+            })
+            $("#node-input-hostHeader").typedInput({
+                default: "none",
+                types: [makeTypedInputOpt("None", "none"), 'str', 'msg', 'flow', 'global', 'env'
+                ],
+                typeField: $("#node-input-hostHeader"),
+            })
+        },
+        oneditsave: function () {
             this.inputs.value = $("#node-input-inputs").val()
         },
         button: {
-            visible: function() {
+            visible: function () {
                 if (this.inputtype == 'button') {
                     return true
                 } else {
@@ -33,24 +108,24 @@
                 }
             },
             toggle: "buttonState",
-            onclick: function() {
+            onclick: function () {
                 var node = this;
                 $.ajax({
-                    url: "ngrokInject/"+this.id,
-                    type:"POST",
-                    data: {"on" : this.buttonState},
-                    success: function(resp) {
-                        RED.notify(node._("inject.success",{label:label}),{type:"success",id:"inject"});
+                    url: "ngrokInject/" + this.id,
+                    type: "POST",
+                    data: { "on": this.buttonState },
+                    success: function (resp) {
+                        RED.notify(node._("inject.success", { label: label }), { type: "success", id: "inject" });
                     },
-                    error: function(jqXHR,textStatus,errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status == 404) {
-                            RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.not-deployed")}),"error");
+                            RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.not-deployed") }), "error");
                         } else if (jqXHR.status == 500) {
-                            RED.notify(node._("common.notification.error",{message:node._("inject.errors.failed")}),"error");
+                            RED.notify(node._("common.notification.error", { message: node._("inject.errors.failed") }), "error");
                         } else if (jqXHR.status == 0) {
-                            RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.no-response")}),"error");
+                            RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.no-response") }), "error");
                         } else {
-                            RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.unexpected",{status:jqXHR.status,message:textStatus})}),"error");
+                            RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.unexpected", { status: jqXHR.status, message: textStatus }) }), "error");
                         }
                     }
                 });
@@ -67,47 +142,44 @@
 
     <div class="form-row">
         <label for="node-input-port">Port</label>
+        <input type="hidden" id="node-input-portType">
         <input type="text" id="node-input-port" placeholder="node-red current port">
     </div>
 
     <div class="form-row">
         <label for="node-input-region">Region</label>
-        <select type="text" id="node-input-region" style="width:70%;">
-            <option value="us">US</option>
-            <option value="eu">Europe</option>
-            <option value="ap">Asia/Pacific</option>
-            <option value="au">Australia</option>
-            <option value="sa">South America</option>
-            <option value="jp">Japan</option>
-            <option value="in">India</option>
-        </select>
+        <input type="hidden" id="node-input-regionType">
+        <input type="text" id="node-input-region" placeholder="region">
     </div>
 
     <div class="form-row">
         <label for="node-input-proto">Protocol</label>
-        <select type="text" id="node-input-proto" style="width:70%;" onchange="toggleProtocol(this.value)">
-            <option value="http">HTTP</option>
-            <option value="tcp">TCP</option>
-        </select>
+        <input type="hidden" id="node-input-protoType">
+        <input type="text" id="node-input-proto" placeholder="Protocol">
     </div>
 
     <div id="bind_tls" class="form-row">
         <label for="node-input-bind_tls">Binding</label>
-        <select type="text" id="node-input-bind_tls" style="width:70%;">
-            <option value="true">HTTPS endpoint</option>
-            <option value="false">HTTP endpoint</option>
-	        <option value="both">Both endpoints</option>
-        </select>
+        <input type="hidden" id="node-input-bind_tlsType">
+        <input type="text" id="node-input-bind_tls" placeholder="https/http/both">
     </div>
 
     <div id="subdomain" class="form-row">
         <label for="node-input-subdomain">Subdomain</label>
+        <input type="hidden" id="node-input-subdomainType">
         <input type="text" id="node-input-subdomain" placeholder="Name">
     </div>
 
     <div id="auth" class="form-row">
         <label for="node-input-auth">Auth</label>
+        <input type="hidden" id="node-input-authType">
         <input type="text" id="node-input-auth" placeholder="username:password">
+    </div>
+
+    <div id="auth" class="form-row">
+        <label for="node-input-hostHeader">Host header</label>
+        <input type="hidden" id="node-input-hostHeaderType">
+        <input type="text" id="node-input-hostHeader" placeholder="localhost:port">
     </div>
 
     <div class="form-row">
