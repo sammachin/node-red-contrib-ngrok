@@ -42,7 +42,13 @@ module.exports = function (RED) {
       } else if (msg.payload == 'on' || msg.payload == true) {
         let _port, _proto, _region, _bind_tls, _auth, _host_header;
 
-        _port = RED.util.evaluateNodeProperty(node.port, node.portType, node, msg);
+        if(node.portType == "node-red" || node.portType == "") {
+          _port = null
+        } else {
+          _port = RED.util.evaluateNodeProperty(node.port, node.portType, node, msg);
+        }
+
+        if (!_port)  { _port = RED.settings.uiPort; } //ensure port is something
 
         if (proto_types.indexOf(node.proto) >= 0) {
           _proto = node.proto;
@@ -92,11 +98,6 @@ module.exports = function (RED) {
             default:
               _bind_tls = "true"//default to secure
           }
-        }
-
-        //ensure port is something
-        if (!_port) {
-          _port = RED.settings.uiPort;
         }
 
         var options = {

@@ -5,7 +5,7 @@
         defaults: {
             buttonState: { value: false },
             port: { value: "" },
-            portType: { value: "num" },
+            portType: { value: "node-red" },
             creds: { value: "", type: "ngrokauth" },
             region: { value: 'us' },
             regionType: { value: 'us' },
@@ -53,8 +53,8 @@
             })
 
             $("#node-input-port").typedInput({
-                default: "num",
-                types: ['num', 'msg', 'flow', 'global', 'env'
+                default: "node-red",
+                types: [makeTypedInputOpt("Node-red port", "node-red"),'num', 'msg', 'flow', 'global', 'env'
                 ],
                 typeField: $("#node-input-portType"),
             })
@@ -147,7 +147,7 @@
     <div class="form-row">
         <label for="node-input-port">Port</label>
         <input type="hidden" id="node-input-portType">
-        <input type="text" id="node-input-port" placeholder="node-red current port">
+        <input type="text" id="node-input-port" placeholder="port">
     </div>
 
     <div class="form-row">
