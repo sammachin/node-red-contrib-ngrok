@@ -11,6 +11,8 @@ module.exports = function (RED) {
     node.creds = RED.nodes.getNode(config.creds);
     node.port = config.port || "";
     node.portType = config.portType || "num";
+    node.host = config.host || "";
+    node.hostType = config.hostType || "localhost"
     node.region = config.region;
     node.regionType = config.regionType || "us";
     node.proto = config.proto || "http";
@@ -49,6 +51,12 @@ module.exports = function (RED) {
         }
 
         if (!_port)  { _port = RED.settings.uiPort; } //ensure port is something
+        if(node.hostType == "localhost" || node.hostType == "") {
+          _host = '127.0.0.1'
+        } else {
+          _host = RED.util.evaluateNodeProperty(node.host, node.hostType, node, msg);
+        }
+        
 
         if (proto_types.indexOf(node.proto) >= 0) {
           _proto = node.proto;
@@ -103,7 +111,7 @@ module.exports = function (RED) {
         var options = {
           authtoken: node.authtoken,
           proto: _proto,
-          addr: _port + "",
+          addr: _host + ":"  +_port,
           subdomain: _subdomain,
           region: _region,
           bind_tls: _bind_tls,

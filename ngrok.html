@@ -6,21 +6,23 @@
             buttonState: { value: false },
             port: { value: "" },
             portType: { value: "node-red" },
+            host: { value: "" },
+            hostType: { value: "localhost" }, 
             creds: { value: "", type: "ngrokauth", required: false },
             region: { value: 'us' },
             regionType: { value: 'us' },
             proto: { value: 'http' },
-            bind_tls: { value: "https" },
-            bind_tlsType: { value: "https" },
+            bind_tls: { value: "both" },
+            bind_tlsType: { value: "both" },
             subdomain: { value: "" },
             subdomainType: { value: "none" },
             auth: { value: "" },
-            authType: { value: "str" },
+            authType: { value: "none" },
             hostHeader: { value: "" },
             hostHeaderType: { value: "none" },
             name: { value: "" },
-            inputtype: { value: "port" },
-            inputs: { value: 1 }
+            inputtype: { value: "button" },
+            inputs: { value: 0 }
         },
         inputs: 1,
         outputs: 1,
@@ -54,9 +56,15 @@
 
             $("#node-input-port").typedInput({
                 default: "node-red",
-                types: [makeTypedInputOpt("Node-red port", "node-red"),'str', 'msg', 'flow', 'global', 'env'
+                types: [makeTypedInputOpt("Node-red port", "node-red"),'num', 'msg', 'flow', 'global', 'env'
                 ],
                 typeField: $("#node-input-portType"),
+            })
+            $("#node-input-host").typedInput({
+                default: "localhost",
+                types: [makeTypedInputOpt("localhost", "localhost"),'str', 'msg', 'flow', 'global', 'env'
+                ],
+                typeField: $("#node-input-hostType"),
             })
             $("#node-input-subdomain").typedInput({
                 default: "none",
@@ -75,7 +83,7 @@
                 typeField: $("#node-input-bind_tlsType"),
             })
             $("#node-input-auth").typedInput({
-                default: "str",
+                default: "none",
                 types: [makeTypedInputOpt("None", "none"), 'str', 'msg', 'flow', 'global', 'env'
                 ],
                 typeField: $("#node-input-authType"),
@@ -148,6 +156,12 @@
         <label for="node-input-port">Port</label>
         <input type="hidden" id="node-input-portType">
         <input type="text" id="node-input-port" style="width:70%;" placeholder="port">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-host">Host</label>
+        <input type="hidden" id="node-input-hostType">
+        <input type="text" id="node-input-host" style="width:70%;" placeholder="host">
     </div>
 
     <div class="form-row">
@@ -238,6 +252,8 @@
     <p><code>Authtoken</code> - (optional) while ngrok doesn't require account registration if you register then you can have tunnels that live for more than 8 hour even on the free package. Paid subscription permits even more features.</p>
     <p><code>Protocol</code> - tunnel protocol. Available options are "http" or "tcp"</p>
     <p><code>Port</code> - allows you to specify the local port number. Set to "node-red port" to use the current node-red port number</p>
+    <p><code>Host</code> - allows you to specify the the host that ngrok will forward requests to in the local network, usually this is localhost</p>
+
     <p><code>Region</code> - allows you to specify the region. Make sure the region you specify matches the region in which you reserved your domain. Expected values are...
         <ul>
             <li><code>us</code> - US</li>
@@ -252,7 +268,7 @@
     <p><code>Binding</code> - bind an HTTPS or HTTP endpoint or both. Expected values are <code>true</code>, <code>false</code>, or <code>both</code>. It is <b>STRONGLY</b> recommended this be set to true for HTTPS. Only valid when protocol is "http"</p>
     <p><code>Subdomain</code> - allows you to specify a subdomain e.g. setting this to fred will use reserved tunnel name https://fred.ngrok.io NOTE: This option requires a paid subscription to ngrok. Only valid when protocol is "http"</p>
     <p><code>Host header</code> - allows you to rewrite the HTTP Host header to this value. Only valid when protocol is "http"</p>
-    <p><code>Auth</code> - this is the username and password ngrok will request before permitting connection. The format must be <code>username:password</code>. It is <b>STRONGLY</b> recommended you set this value. Only valid when protocol is "http"</p>
+    <p><code>Auth</code> - this is the username and password ngrok will request before permitting connection. The format must be <code>username:password</code>. Only valid when protocol is "http"</p>
     <p>Refer to <a target="_blank" href="https://www.npmjs.com/package/ngrok#options">connection options</a> for more details</p>
 
     <h3>Trigger</h3>
