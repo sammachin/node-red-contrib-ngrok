@@ -1,4 +1,4 @@
-# node-red-alerox-ngrok
+# node-red-contrib-ngrok
 
 This is a wrapper to expose and manage the popular tunnelling service [ngrok](https://ngrok.com) within node red
 
@@ -11,6 +11,7 @@ The default ngrok region is US but you can also set Europe, Asia, Australia, Sou
 While ngrok doesn't require account registration if you register then you can have tunnels that live for more than 8 hour even on the free package, to get additional features such as reserved hostnames and multiple tunnels require a paid account.
 You can set your authtoken for your ngrok account as a config param, if you don't have an authtoken, you dont need to enter one (leave set to "Add new ...")
 
+For dynamic control, there is a demo flow included. Use <kbd>CTRL+I</kbd> then choose **examples** → **node-red-contrib-ngrok** → **dynamic-control-demo**
 
 ### !!!DANGER!!!
 
