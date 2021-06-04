@@ -168,16 +168,16 @@
         <input type="text" id="node-input-subdomain" style="width:70%;" placeholder="subdomain">
     </div>
 
-    <div id="node-ngrok-auth" class="form-row">
-        <label for="node-input-auth">Auth</label>
-        <input type="hidden" id="node-input-authType">
-        <input type="text" id="node-input-auth" style="width:70%;" placeholder="username:password">
-    </div>
-
     <div id="node-ngrok-hostHeader" class="form-row">
         <label for="node-input-hostHeader">Host header</label>
         <input type="hidden" id="node-input-hostHeaderType">
         <input type="text" id="node-input-hostHeader" style="width:70%;" placeholder="localhost">
+    </div>
+
+    <div id="node-ngrok-auth" class="form-row">
+        <label for="node-input-auth">Auth</label>
+        <input type="hidden" id="node-input-authType">
+        <input type="text" id="node-input-auth" style="width:70%;" placeholder="username:password">
     </div>
 
     <div class="form-row">
@@ -249,10 +249,10 @@
             <li><code>in</code> - India</li>
         </ul>
     </p>
-    <p><code>Binding</code> - bind an HTTPS or HTTP endpoint or both. Expected values are <code>true</code>, <code>false</code>, or <code>both</code>. It is STRONGLY recommended this be set to true for HTTPS. Only valid when protocol is "http"</p>
+    <p><code>Binding</code> - bind an HTTPS or HTTP endpoint or both. Expected values are <code>true</code>, <code>false</code>, or <code>both</code>. It is <b>STRONGLY</b> recommended this be set to true for HTTPS. Only valid when protocol is "http"</p>
     <p><code>Subdomain</code> - allows you to specify a subdomain e.g. setting this to fred will use reserved tunnel name https://fred.ngrok.io NOTE: This option requires a paid subscription to ngrok. Only valid when protocol is "http"</p>
-    <p><code>Auth</code> - this is the username and password ngrok will request before permitting connection. The format must be <code>username:password</code>. It is STRONGLY recommended you set this value. Only valid when protocol is "http"</p>
     <p><code>Host header</code> - allows you to rewrite the HTTP Host header to this value. Only valid when protocol is "http"</p>
+    <p><code>Auth</code> - this is the username and password ngrok will request before permitting connection. The format must be <code>username:password</code>. It is <b>STRONGLY</b> recommended you set this value. Only valid when protocol is "http"</p>
     <p>Refer to <a target="_blank" href="https://www.npmjs.com/package/ngrok#options">connection options</a> for more details</p>
 
     <h3>Trigger</h3>
