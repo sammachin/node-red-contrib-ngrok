@@ -127,7 +127,13 @@
                         
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        RED.notify("ERROR", {type: "error"});
+                        console.error(errorThrown)
+                        console.error(textStatus)
+                        if (jqXHR.status == 404) {
+                            RED.notify("ERROR Not Deployed", {type: "error"});
+                        } else {
+                            RED.notify("ERROR -- View Log", {type: "error"});
+                        }
                     }
                 });
             }
