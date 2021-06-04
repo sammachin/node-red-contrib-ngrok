@@ -1,31 +1,102 @@
 <script type="text/javascript">
-    RED.nodes.registerType('ngrok',{
+    RED.nodes.registerType('ngrok', {
         category: 'network',
         color: '#008080',
         defaults: {
-          buttonState: {value: false},
-          port: {default: ""},
-          creds: {value:"", type:"ngrokauth"},
-          region:{default: 'us'},
-          proto:{default: 'http'},
-		  bind_tls:{default: false},
-          subdomain:{default: ""},
-          name: {value:""},
-          auth: {value: ""},
-          inputtype: {value: "port"},
-          inputs: {value: ""}
+            buttonState: { value: false },
+            port: { value: "" },
+            portType: { value: "node-red" },
+            creds: { value: "", type: "ngrokauth", required: false },
+            region: { value: 'us' },
+            regionType: { value: 'us' },
+            proto: { value: 'http' },
+            bind_tls: { value: "https" },
+            bind_tlsType: { value: "https" },
+            subdomain: { value: "" },
+            subdomainType: { value: "none" },
+            auth: { value: "" },
+            authType: { value: "str" },
+            hostHeader: { value: "" },
+            hostHeaderType: { value: "none" },
+            name: { value: "" },
+            inputtype: { value: "port" },
+            inputs: { value: 1 }
         },
         inputs: 1,
         outputs: 1,
         icon: "white-globe.png",
-        label: function() {
-            return this.name||"ngrok";
+        label: function () {
+            return this.name || "ngrok";
         },
-        oneditsave: function (){
+        oneditprepare: function () {
+            
+            var makeTypedInputOpt = function (label, value) {
+                return {
+                    value: value,
+                    label: label,
+                    hasValue: false
+                }
+            }
+            $("#node-input-region").typedInput({
+                default: "us",
+                types: [
+                    makeTypedInputOpt("US", "us"),
+                    makeTypedInputOpt("Europe", "eu"),
+                    makeTypedInputOpt("Asia/Pacific", "ap"),
+                    makeTypedInputOpt("Australia", "au"),
+                    makeTypedInputOpt("South America", "sa"),
+                    makeTypedInputOpt("Japan", "jp"),
+                    makeTypedInputOpt("India", "in"),
+                    , 'msg', 'flow', 'global', 'str', 'env'
+                ],
+                typeField: $("#node-input-regionType"),
+            })
+
+            $("#node-input-port").typedInput({
+                default: "node-red",
+                types: [makeTypedInputOpt("Node-red port", "node-red"),'str', 'msg', 'flow', 'global', 'env'
+                ],
+                typeField: $("#node-input-portType"),
+            })
+            $("#node-input-subdomain").typedInput({
+                default: "none",
+                types: [makeTypedInputOpt("None", "none"), 'str', 'msg', 'flow', 'global', 'env'
+                ],
+                typeField: $("#node-input-subdomainType"),
+            })
+            $("#node-input-bind_tls").typedInput({
+                default: "https",
+                types: [
+                    makeTypedInputOpt("HTTPS", "https"),
+                    makeTypedInputOpt("HTTP", "http"),
+                    makeTypedInputOpt("HTTP & HTTPS", "both"),
+                    'msg', 'flow', 'global', 'env'
+                ],
+                typeField: $("#node-input-bind_tlsType"),
+            })
+            $("#node-input-auth").typedInput({
+                default: "str",
+                types: [makeTypedInputOpt("None", "none"), 'str', 'msg', 'flow', 'global', 'env'
+                ],
+                typeField: $("#node-input-authType"),
+            })
+            $("#node-input-hostHeader").typedInput({
+                default: "none",
+                types: [makeTypedInputOpt("None", "none"), 'str', 'msg', 'flow', 'global', 'env'
+                ],
+                typeField: $("#node-input-hostHeaderType"),
+            })
+            //ensure valid protocol choice
+            if(this.proto !== "tcp" && this.proto !== "http") {
+                this.proto = "http";
+                $("#node-input-proto").val(this.proto);
+            }
+        },
+        oneditsave: function () {
             this.inputs.value = $("#node-input-inputs").val()
         },
         button: {
-            visible: function() {
+            visible: function () {
                 if (this.inputtype == 'button') {
                     return true
                 } else {
@@ -33,24 +104,24 @@
                 }
             },
             toggle: "buttonState",
-            onclick: function() {
+            onclick: function () {
                 var node = this;
                 $.ajax({
-                    url: "ngrokInject/"+this.id,
-                    type:"POST",
-                    data: {"on" : this.buttonState},
-                    success: function(resp) {
-                        RED.notify(node._("inject.success",{label:label}),{type:"success",id:"inject"});
+                    url: "ngrokInject/" + this.id,
+                    type: "POST",
+                    data: { "on": this.buttonState },
+                    success: function (resp) {
+                        RED.notify(node._("inject.success", { label: label }), { type: "success", id: "inject" });
                     },
-                    error: function(jqXHR,textStatus,errorThrown) {
+                    error: function (jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status == 404) {
-                            RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.not-deployed")}),"error");
+                            RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.not-deployed") }), "error");
                         } else if (jqXHR.status == 500) {
-                            RED.notify(node._("common.notification.error",{message:node._("inject.errors.failed")}),"error");
+                            RED.notify(node._("common.notification.error", { message: node._("inject.errors.failed") }), "error");
                         } else if (jqXHR.status == 0) {
-                            RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.no-response")}),"error");
+                            RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.no-response") }), "error");
                         } else {
-                            RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.unexpected",{status:jqXHR.status,message:textStatus})}),"error");
+                            RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.unexpected", { status: jqXHR.status, message: textStatus }) }), "error");
                         }
                     }
                 });
@@ -59,28 +130,10 @@
     });
 </script>
 
-<script type="text/x-red" data-template-name="ngrok">
+<script type="text/html" data-template-name="ngrok">
     <div class="form-row">
         <label for="node-config-input-privatekey">Authtoken</label>
-        <input type="text" id="node-input-creds" >
-    </div>
-
-    <div class="form-row">
-        <label for="node-input-port">Port</label>
-        <input type="text" id="node-input-port" placeholder="node-red current port">
-    </div>
-
-    <div class="form-row">
-        <label for="node-input-region">Region</label>
-        <select type="text" id="node-input-region" style="width:70%;">
-            <option value="us">US</option>
-            <option value="eu">Europe</option>
-            <option value="ap">Asia/Pacific</option>
-            <option value="au">Australia</option>
-            <option value="sa">South America</option>
-            <option value="jp">Japan</option>
-            <option value="in">India</option>
-        </select>
+        <input type="text" id="node-input-creds" style="width:70%;">
     </div>
 
     <div class="form-row">
@@ -91,23 +144,49 @@
         </select>
     </div>
 
-    <div id="bind_tls" class="form-row">
+    <div class="form-row">
+        <label for="node-input-port">Port</label>
+        <input type="hidden" id="node-input-portType">
+        <input type="text" id="node-input-port" style="width:70%;" placeholder="port">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-region">Region</label>
+        <input type="hidden" id="node-input-regionType">
+        <input type="text" id="node-input-region" style="width:70%;" placeholder="region">
+    </div>
+
+    <div id="node-ngrok-bind_tls" class="form-row">
         <label for="node-input-bind_tls">Binding</label>
-        <select type="text" id="node-input-bind_tls" style="width:70%;">
-            <option value="true">HTTPS endpoint</option>
-            <option value="false">HTTP endpoint</option>
-	        <option value="both">Both endpoints</option>
-        </select>
+        <input type="hidden" id="node-input-bind_tlsType">
+        <input type="text" id="node-input-bind_tls" style="width:70%;" placeholder="https/http/both">
     </div>
 
-    <div id="subdomain" class="form-row">
+    <div id="node-ngrok-subdomain" class="form-row">
         <label for="node-input-subdomain">Subdomain</label>
-        <input type="text" id="node-input-subdomain" placeholder="Name">
+        <input type="hidden" id="node-input-subdomainType">
+        <input type="text" id="node-input-subdomain" style="width:70%;" placeholder="subdomain">
     </div>
 
-    <div id="auth" class="form-row">
+    <div id="node-ngrok-hostHeader" class="form-row">
+        <label for="node-input-hostHeader">Host header</label>
+        <input type="hidden" id="node-input-hostHeaderType">
+        <input type="text" id="node-input-hostHeader" style="width:70%;" placeholder="localhost">
+    </div>
+
+    <div id="node-ngrok-auth" class="form-row">
         <label for="node-input-auth">Auth</label>
-        <input type="text" id="node-input-auth" placeholder="username:password">
+        <input type="hidden" id="node-input-authType">
+        <input type="text" id="node-input-auth" style="width:70%;" placeholder="username:password">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-inputtype">Trigger</label>
+        <select type="text" id="node-input-inputtype" style="width:70%;" onchange="toggleInputType(this.value)">
+            <option value="button">Button</option>
+            <option value="port">Input Port</option>
+        </select>
+    <input type='hidden' id="node-input-inputs">
     </div>
 
     <div class="form-row">
@@ -115,62 +194,79 @@
         <input type="text" id="node-input-name" placeholder="ngrok">
     </div>
 
-    <div class="form-row">
-        <label for="node-input-inputtype">Input Type</label>
-        <select type="text" id="node-input-inputtype" style="width:70%;" onchange="toggleInputType(this.value)">
-            <option value="button">Button</option>
-            <option value="port">Input Port</option>
-        </select>
-    <input type='hidden' id="node-input-inputs">
-    </div>
 </script>
-
-
 
 <script>
-  function toggleProtocol(proto){
-    if (proto == 'http'){
-      document.getElementById("subdomain").style.display = "block";
-      document.getElementById("auth").style.display = "block";
-      document.getElementById("bind_tls").style.display = "block";
+    function toggleProtocol(proto) {
+        if (proto == 'http') {
+            document.getElementById("node-ngrok-subdomain").style.display = "block";
+            document.getElementById("node-ngrok-auth").style.display = "block";
+            document.getElementById("node-ngrok-bind_tls").style.display = "block";
+            document.getElementById("node-ngrok-hostHeader").style.display = "block";
+        }
+        else if (proto == 'tcp') {
+            document.getElementById("node-ngrok-subdomain").style.display = "none";
+            document.getElementById("node-ngrok-auth").style.display = "none";
+            document.getElementById("node-ngrok-bind_tls").style.display = "none";
+            document.getElementById("node-ngrok-hostHeader").style.display = "none";
+        }
     }
-    else if (proto == 'tcp'){
-      document.getElementById("subdomain").style.display = "none";
-      document.getElementById("auth").style.display = "none";
-      document.getElementById("bind_tls").style.display = "none";
+    function toggleInputType(v) {
+        if (v == 'button') {
+            $("#node-input-inputs").val(0)
+        } else if (v == 'port') {
+            $("#node-input-inputs").val(1)
+        }
     }
-  };
-  function toggleInputType(v){
-    if (v == 'button') {
-        $("#node-input-inputs").val(0)
-    } else if (v == 'port') {
-        $("#node-input-inputs").val(1)
-    }    
-  }
 </script>
 
-<script type="text/x-red" data-help-name="ngrok">
+<script type="text/html" data-help-name="ngrok">
     <p>A node that wraps the ngrok controller and also adds the ngrok binary.</p>
-    
-    
-    <h3>Inputs</h3>
+
+    <h3 id="node-ngrok-info-inputs">Inputs</h3>
     <dl class="message-properties">
-        <dt><span class="property-type">object</span></dt>
-        <dd> <code>msg.payload</code> is either <code>on</code> or <code>off</code> to start/stop the tunnel</dd>
+        <dt>payload<span class="property-type">string | boolean</span></dt>
+        <dd>When the Trigger is set for <b>Input Port</b> you can start and stop the connection via a msg. Set <code>msg.payload</code> to either <code>"on"</code> or <code>true</code> to start the tunnel.  Set <code>msg.payload</code> to either <code>"off"</code> or <code>false</code> to stop the tunnel. </dd>
     </dl>
      <h3>Outputs</h3>
      <dl class="message-properties">
-         <dt><span class="property-type">object</span></dt>
+         <dt>payload<span class="property-type">string</span></dt>
          <dd> <code>msg.payload</code> will contain the ngrok public url that is established or null if the tunnel was stopped</dd>
      </dl>
 
-    <h3>Dashboard</h3>
+    <h3>Properties</h3>
+    <p><code>Authtoken</code> - (optional) while ngrok doesn't require account registration if you register then you can have tunnels that live for more than 8 hour even on the free package. Paid subscription permits even more features.</p>
+    <p><code>Protocol</code> - tunnel protocol. Available options are "http" or "tcp"</p>
+    <p><code>Port</code> - allows you to specify the local port number. Set to "node-red port" to use the current node-red port number</p>
+    <p><code>Region</code> - allows you to specify the region. Make sure the region you specify matches the region in which you reserved your domain. Expected values are...
+        <ul>
+            <li><code>us</code> - US</li>
+            <li><code>eu</code> - Europe</li>
+            <li><code>ap</code> - Asia/Pacific</li>
+            <li><code>au</code> - Australia</li>
+            <li><code>sa</code> - South America</li>
+            <li><code>jp</code> - Japan</li>
+            <li><code>in</code> - India</li>
+        </ul>
+    </p>
+    <p><code>Binding</code> - bind an HTTPS or HTTP endpoint or both. Expected values are <code>true</code>, <code>false</code>, or <code>both</code>. It is <b>STRONGLY</b> recommended this be set to true for HTTPS. Only valid when protocol is "http"</p>
+    <p><code>Subdomain</code> - allows you to specify a subdomain e.g. setting this to fred will use reserved tunnel name https://fred.ngrok.io NOTE: This option requires a paid subscription to ngrok. Only valid when protocol is "http"</p>
+    <p><code>Host header</code> - allows you to rewrite the HTTP Host header to this value. Only valid when protocol is "http"</p>
+    <p><code>Auth</code> - this is the username and password ngrok will request before permitting connection. The format must be <code>username:password</code>. It is <b>STRONGLY</b> recommended you set this value. Only valid when protocol is "http"</p>
+    <p>Refer to <a target="_blank" href="https://www.npmjs.com/package/ngrok#options">connection options</a> for more details</p>
+
+    <h3>Trigger</h3>
+    <p>
+        When the trigger is set to <b>Button</b>, an inject button will be shown on the left hand side of the node that can be used to toggle the connection. 
+        When the trigger is set to <b>Input Port</b> you can open and close the tunnel via a msg - see <a href="#node-ngrok-info-inputs">Inputs - payload</a>. 
+    </p>
+
+    <h3>Ngrok Dashboard</h3>
     <p>Open up your ngrok dashboard at <a href="http://127.0.0.1:4040">http://127.0.0.1:4040</a>.
-    <br> It allows you to see the status of your tunnel, the requests made through it and the responses sent from your application. 
+    <br>It allows you to see the status of your tunnel, the requests made through it and the responses sent from your application. 
     <br>You can also replay requests that came through the ngrok tunnel directly from the dashboard.
     </p>
-     
-    
+
 </script>
 
 
@@ -189,7 +285,7 @@
     });
 </script>
 
-<script type="text/x-red" data-template-name="ngrokauth">
+<script type="text/html" data-template-name="ngrokauth">
   <div class="form-row">
       <label for="node-config-input-authtoken">authtoken</label>
       <input type="text" id="node-config-input-authtoken" placeholder="token">
@@ -201,8 +297,8 @@
 
 </script>
 
-<script type="text/x-red" data-help-name="ngrokauth">
+<script type="text/html" data-help-name="ngrokauth">
    <p>Ngrok authtoken </p>
    <h3>Details</h3>
-   <p> You can optionally set an authtoken obtained from ngrok.com, this is required for accesspaid features such as reserved names</p>
+   <p> You can optionally set an authtoken obtained from ngrok.com, this is required for paid features such as reserved subdomain names</p>
 </script>
