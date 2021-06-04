@@ -118,19 +118,16 @@
                     url: "ngrokInject/" + this.id,
                     type: "POST",
                     data: { "on": this.buttonState },
-                    success: function (resp) {
-                        RED.notify(node._("inject.success", { label: label }), { type: "success", id: "inject" });
+                    success: function (resp, ) {
+                        if (node.buttonState) {
+                            RED.notify("Connecting", {type: "success"});
+                        }  else {
+                            RED.notify("Disconnecting", {type: "success"});
+                        }
+                        
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
-                        if (jqXHR.status == 404) {
-                            RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.not-deployed") }), "error");
-                        } else if (jqXHR.status == 500) {
-                            RED.notify(node._("common.notification.error", { message: node._("inject.errors.failed") }), "error");
-                        } else if (jqXHR.status == 0) {
-                            RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.no-response") }), "error");
-                        } else {
-                            RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.unexpected", { status: jqXHR.status, message: textStatus }) }), "error");
-                        }
+                        RED.notify("ERROR", {type: "error"});
                     }
                 });
             }
