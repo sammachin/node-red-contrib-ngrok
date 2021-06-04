@@ -42,7 +42,7 @@ module.exports = function (RED) {
         })();
 
       } else if (msg.payload == 'on' || msg.payload == true) {
-        let _port, _proto, _region, _bind_tls, _auth, _host_header;
+        let _port, _host, _proto, _region, _bind_tls, _auth, _host_header;
 
         if(node.portType == "node-red" || node.portType == "") {
           _port = null
@@ -51,12 +51,12 @@ module.exports = function (RED) {
         }
 
         if (!_port)  { _port = RED.settings.uiPort; } //ensure port is something
+        
         if(node.hostType == "localhost" || node.hostType == "") {
           _host = '127.0.0.1'
         } else {
           _host = RED.util.evaluateNodeProperty(node.host, node.hostType, node, msg);
         }
-        
 
         if (proto_types.indexOf(node.proto) >= 0) {
           _proto = node.proto;
