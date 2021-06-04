@@ -223,10 +223,10 @@
 <script type="text/html" data-help-name="ngrok">
     <p>A node that wraps the ngrok controller and also adds the ngrok binary.</p>
 
-    <h3>Inputs</h3>
+    <h3 id="node-ngrok-info-inputs">Inputs</h3>
     <dl class="message-properties">
         <dt>payload<span class="property-type">string | boolean</span></dt>
-        <dd> Set <code>msg.payload</code> to either <code>"on"</code> or <code>true</code> to start the tunnel.  Set <code>msg.payload</code> to either <code>"off"</code> or <code>false</code> to stop the tunnel. </dd>
+        <dd>When the Trigger is set for <b>Input Port</b> you can start and stop the connection via a msg. Set <code>msg.payload</code> to either <code>"on"</code> or <code>true</code> to start the tunnel.  Set <code>msg.payload</code> to either <code>"off"</code> or <code>false</code> to stop the tunnel. </dd>
     </dl>
      <h3>Outputs</h3>
      <dl class="message-properties">
@@ -235,6 +235,7 @@
      </dl>
 
     <h3>Properties</h3>
+    <p><code>Authtoken</code> - (optional) while ngrok doesn't require account registration if you register then you can have tunnels that live for more than 8 hour even on the free package. Paid subscription permits even more features.</p>
     <p><code>Protocol</code> - tunnel protocol. Available options are "http" or "tcp"</p>
     <p><code>Port</code> - allows you to specify the local port number. Set to "node-red port" to use the current node-red port number</p>
     <p><code>Region</code> - allows you to specify the region. Make sure the region you specify matches the region in which you reserved your domain. Expected values are...
@@ -253,6 +254,12 @@
     <p><code>Auth</code> - this is the username and password ngrok will request before permitting connection. The format must be <code>username:password</code>. It is STRONGLY recommended you set this value. Only valid when protocol is "http"</p>
     <p><code>Host header</code> - allows you to rewrite the HTTP Host header to this value. Only valid when protocol is "http"</p>
     <p>Refer to <a target="_blank" href="https://www.npmjs.com/package/ngrok#options">connection options</a> for more details</p>
+
+    <h3>Trigger</h3>
+    <p>
+        When the trigger is set to <b>Button</b>, an inject button will be shown on the left hand side of the node that can be used to toggle the connection. 
+        When the trigger is set to <b>Input Port</b> you can open and close the tunnel via a msg - see <a href="#node-ngrok-info-inputs">Inputs - payload</a>. 
+    </p>
 
     <h3>Ngrok Dashboard</h3>
     <p>Open up your ngrok dashboard at <a href="http://127.0.0.1:4040">http://127.0.0.1:4040</a>.
