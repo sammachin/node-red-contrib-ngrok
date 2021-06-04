@@ -181,21 +181,20 @@
     </div>
 
     <div class="form-row">
-        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="ngrok">
-    </div>
-
-    <div class="form-row">
-        <label for="node-input-inputtype">Input Type</label>
+        <label for="node-input-inputtype">Trigger</label>
         <select type="text" id="node-input-inputtype" style="width:70%;" onchange="toggleInputType(this.value)">
             <option value="button">Button</option>
             <option value="port">Input Port</option>
         </select>
     <input type='hidden' id="node-input-inputs">
     </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="ngrok">
+    </div>
+
 </script>
-
-
 
 <script>
     function toggleProtocol(proto) {
