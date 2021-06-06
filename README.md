@@ -4,7 +4,7 @@ This is a wrapper to expose and manage the popular tunnelling service [ngrok](ht
 
 You can start and stop a tunnel using the button on the node or by injecting values,  the node will then output the ngrok host address as the `msg.payload`
 
-The tunnel will expose the port the your node-red GUI is running on (eg 1880), you can override this port by setting the Port value in the node.
+The tunnel will expose the port that your node-red GUI is running on (eg 1880), you can override this port by setting the Port value in the node.
 
 The default ngrok region is US but you can also set Europe, Asia, Australia, South America, Japan or India.
 
