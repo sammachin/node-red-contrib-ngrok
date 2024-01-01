@@ -92,19 +92,21 @@ module.exports = function (RED) {
           } else {
             _host_header = RED.util.evaluateNodeProperty(node.hostHeader, node.hostHeaderType, node, msg);
           }
-
           //ensure binding is valid
           switch (_bind_tls) {
             case "false":
             case false:
+            case "https":
+              _bind_tls = ["https"]
+              break
             case "http":
-              _bind_tls = "false"
+              _bind_tls = ["http"]
               break
             case "both":
-              _bind_tls = "both"
+              _bind_tls = ["http", "https"]
               break
             default:
-              _bind_tls = "true"//default to secure
+              _bind_tls = ["https"] //default to secure
           }
         }
 
@@ -112,23 +114,30 @@ module.exports = function (RED) {
           authtoken: node.authtoken,
           proto: _proto,
           addr: _host + ":"  +_port,
-          subdomain: _subdomain,
           region: _region,
-          bind_tls: _bind_tls,
+          schemes: _bind_tls,
           host_header: _host_header,
         }
-
+        if (_subdomain.indexOf('.') > -1){
+          options.hostname = _subdomain
+        } else {
+          options.subdomain = _subdomain
+        }
         if (_auth) {
           const auth = _auth.split(':');
           if (!auth || auth.length !== 2) {
             node.error("ngrok auth should be formatted as user:password", msg);
             return;
           }
-          options.auth = _auth;
+          if (auth[1].length < 8){
+            node.error("Password must be at least 8 characters")
+            return;
+
+          }
+          options.basic_auth = _auth;
         }
 
         clean(options);
-
         (async function () {
           try {
             //Disconnect once before reconnecting

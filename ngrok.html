@@ -180,7 +180,7 @@
     </div>
 
     <div id="node-ngrok-subdomain" class="form-row">
-        <label for="node-input-subdomain">Subdomain</label>
+        <label for="node-input-subdomain">Domain</label>
         <input type="hidden" id="node-input-subdomainType">
         <input type="text" id="node-input-subdomain" style="width:70%;" placeholder="subdomain">
     </div>
@@ -268,8 +268,8 @@
             <li><code>in</code> - India</li>
         </ul>
     </p>
-    <p><code>Binding</code> - bind an HTTPS or HTTP endpoint or both. Expected values are <code>true</code>, <code>false</code>, or <code>both</code>. It is <b>STRONGLY</b> recommended this be set to true for HTTPS. Only valid when protocol is "http"</p>
-    <p><code>Subdomain</code> - allows you to specify a subdomain e.g. setting this to fred will use reserved tunnel name https://fred.ngrok.io NOTE: This option requires a paid subscription to ngrok. Only valid when protocol is "http"</p>
+    <p><code>Binding</code> - bind an HTTPS or HTTP endpoint or both. Expected values are <code>["http", "https"]</code>, <code>["http"]</code>, or <code>["https"]</code>. It is <b>STRONGLY</b> recommended to use HTTPS. Only valid when protocol is "http"</p>
+    <p><code>Domain</code> - allows you to specify a subdomain e.g. setting this to fred will use reserved tunnel name https://fred.ngrok.io, you can also enter a FQDN if that has been configured on ngrok NOTE: This option requires a paid subscription to ngrok. Only valid when protocol is "http"</p>
     <p><code>Host header</code> - allows you to rewrite the HTTP Host header to this value. Only valid when protocol is "http"</p>
     <p><code>Auth</code> - this is the username and password ngrok will request before permitting connection. The format must be <code>username:password</code>. Only valid when protocol is "http"</p>
     <p>Refer to <a target="_blank" href="https://www.npmjs.com/package/ngrok#options">connection options</a> for more details</p>
