@@ -1,4 +1,5 @@
 const ng = require('@ngrok/ngrok');
+const Package = require('./package.json');
 
 module.exports = function (RED) {
   function ngrok(config) {
@@ -133,7 +134,8 @@ module.exports = function (RED) {
           addr: _host + ':' + _port,
           region: _region,
           schemes: _bind_tls,
-          host_header: _host_header
+          host_header: _host_header,
+          session_metadata: `{"Node-RED":"${RED.version()}","node-red-contrib-ngrok":"${Package.version.trim()}"}`
         };
         if (_subdomain.indexOf('.') > -1) {
           options.hostname = _subdomain;
