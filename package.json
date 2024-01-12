@@ -1,7 +1,7 @@
 {
     "name": "node-red-contrib-ngrok",
-    "version": "2.1.0",
-    "description": "nodered node to wrap and control ngrok",
+    "version": "3.0.0",
+    "description": "Node-RED node to wrap and control ngrok",
     "author": "Sam Machin",
     "contributors": ["Steve-Mcl"],
     "license": "MIT",
@@ -9,18 +9,18 @@
     "repository": {
         "type": "git",
         "url": "git://github.com/sammachin/node-red-contrib-ngrok.git"
-    },  
+    },
     "engines": {
-       "node": ">=12.0.0"
-    },  
+       "node": ">=16.0.0"
+    },
     "keywords": [ "node-red" ],
     "node-red": {
-        "version": ">=1.0.0",
+        "version": ">=2.0.0",
         "nodes": {
             "ngrok": "ngrok.js"
         }
     },
     "dependencies": {
-        "ngrok": "^5.0.0-beta.2"
+        "@ngrok/ngrok": "0.9.1"
     }
 }
