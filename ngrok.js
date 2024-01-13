@@ -128,6 +128,13 @@ module.exports = function (RED) {
           }
         }
 
+        // metadata
+        const _red = RED.version();
+        const _pname = Package.name.trim();
+        const _pversion = Package.version.trim();
+        const _name = node.name;
+        const _id = node.id;
+
         var options = {
           authtoken: node.authtoken,
           proto: _proto,
@@ -135,7 +142,7 @@ module.exports = function (RED) {
           region: _region,
           schemes: _bind_tls,
           host_header: _host_header,
-          session_metadata: `{"Node-RED":"${RED.version()}","node-red-contrib-ngrok":"${Package.version.trim()}"}`
+          session_metadata: `{"Node-RED":"${_red}","${_pname}":"${_pversion}","name":"${_name},"id":"${_id}"}`
         };
         if (_subdomain.indexOf('.') > -1) {
           options.hostname = _subdomain;
