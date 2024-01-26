@@ -132,8 +132,8 @@ module.exports = function (RED) {
         const _red = RED.version();
         const _pname = Package.name.trim();
         const _pversion = Package.version.trim();
-        const _name = node.name;
-        const _id = node.id;
+        const _nname = node.name;
+        const _nid = node.id;
 
         var options = {
           authtoken: node.authtoken,
@@ -142,7 +142,7 @@ module.exports = function (RED) {
           region: _region,
           schemes: _bind_tls,
           host_header: _host_header,
-          session_metadata: `{"Node-RED":"${_red}","${_pname}":"${_pversion}","name":"${_name},"id":"${_id}"}`
+          session_metadata: `{"Node-RED":"${_red}","${_pname}":"${_pversion}","name":"${_nname},"id":"${_nid}"}`
         };
         if (_subdomain.indexOf('.') > -1) {
           options.hostname = _subdomain;
