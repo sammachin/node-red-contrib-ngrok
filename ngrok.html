@@ -9,8 +9,6 @@
             host: { value: "" },
             hostType: { value: "localhost" },
             creds: { value: "", type: "ngrokauth", required: true },
-            region: { value: 'us' },
-            regionType: { value: 'us' },
             proto: { value: 'http' },
             bind_tls: { value: "https" },
             bind_tlsType: { value: "https" },
@@ -39,20 +37,6 @@
                     hasValue: false
                 }
             }
-            $("#node-input-region").typedInput({
-                default: "us",
-                types: [
-                    makeTypedInputOpt("US", "us"),
-                    makeTypedInputOpt("Europe", "eu"),
-                    makeTypedInputOpt("Asia/Pacific", "ap"),
-                    makeTypedInputOpt("Australia", "au"),
-                    makeTypedInputOpt("South America", "sa"),
-                    makeTypedInputOpt("Japan", "jp"),
-                    makeTypedInputOpt("India", "in"),
-                    , 'msg', 'flow', 'global', 'str', 'env'
-                ],
-                typeField: $("#node-input-regionType"),
-            })
 
             $("#node-input-port").typedInput({
                 default: "node-red",
@@ -166,22 +150,16 @@
         <input type="text" id="node-input-host" style="width:70%;" placeholder="host">
     </div>
 
-    <div class="form-row">
-        <label for="node-input-region">Region</label>
-        <input type="hidden" id="node-input-regionType">
-        <input type="text" id="node-input-region" style="width:70%;" placeholder="region">
-    </div>
-
     <div id="node-ngrok-bind_tls" class="form-row">
         <label for="node-input-bind_tls">Binding</label>
         <input type="hidden" id="node-input-bind_tlsType">
-        <input type="text" id="node-input-bind_tls" style="width:70%;" placeholder="https/http/both">
+        <input type="text" id="node-input-bind_tls" style="width:70%;" placeholder="https/http">
     </div>
 
     <div id="node-ngrok-subdomain" class="form-row">
         <label for="node-input-subdomain">Domain</label>
         <input type="hidden" id="node-input-subdomainType">
-        <input type="text" id="node-input-subdomain" style="width:70%;" placeholder="subdomain">
+        <input type="text" id="node-input-subdomain" style="width:70%;" placeholder="domain">
     </div>
 
     <div id="node-ngrok-hostHeader" class="form-row">
@@ -256,17 +234,6 @@
     <p><code>Port</code> - allows you to specify the local port number. Set to "node-red port" to use the current node-red port number</p>
     <p><code>Host</code> - allows you to specify the the host that ngrok will forward requests to in the local network, usually this is localhost</p>
 
-    <p><code>Region</code> - allows you to specify the region. Make sure the region you specify matches the region in which you reserved your domain. Expected values are...
-        <ul>
-            <li><code>us</code> - US</li>
-            <li><code>eu</code> - Europe</li>
-            <li><code>ap</code> - Asia/Pacific</li>
-            <li><code>au</code> - Australia</li>
-            <li><code>sa</code> - South America</li>
-            <li><code>jp</code> - Japan</li>
-            <li><code>in</code> - India</li>
-        </ul>
-    </p>
     <p><code>Binding</code> - bind an HTTPS or HTTP endpoint or both. Expected values are <code>["http", "https"]</code>, <code>["http"]</code>, or <code>["https"]</code>. It is <b>STRONGLY</b> recommended to use HTTPS. Only valid when protocol is "http"</p>
     <p><code>Domain</code> - allows you to specify a subdomain (1 free) e.g. setting this to fred will use reserved tunnel name https://fred.ngrok.io, you can also enter a FQDN if that has been configured on ngrok NOTE: This option requires a paid subscription to ngrok. Only valid when protocol is "http"</p>
     <p><code>Host Header</code> - allows you to rewrite the HTTP Host Header to this value. Only valid when protocol is "http"</p>

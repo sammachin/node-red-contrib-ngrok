@@ -3,7 +3,9 @@
     "version": "3.0.0",
     "description": "Node-RED node to wrap and control ngrok",
     "author": "Sam Machin",
-    "contributors": ["Steve-Mcl"],
+    "contributors": [
+        "Steve-Mcl", "twocolors"
+    ],
     "license": "MIT",
     "homepage": "https://github.com/sammachin/node-red-contrib-ngrok",
     "repository": {
@@ -11,9 +13,11 @@
         "url": "git://github.com/sammachin/node-red-contrib-ngrok.git"
     },
     "engines": {
-       "node": ">=16.0.0"
+        "node": ">=16.0.0"
     },
-    "keywords": [ "node-red" ],
+    "keywords": [
+        "node-red"
+    ],
     "node-red": {
         "version": ">=2.0.0",
         "nodes": {
@@ -21,6 +25,6 @@
         }
     },
     "dependencies": {
-        "@ngrok/ngrok": "0.9.1"
+        "@ngrok/ngrok": "^0.9.1"
     }
 }
