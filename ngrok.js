@@ -134,10 +134,12 @@ module.exports = function (RED) {
           host_header: _host_header,
           session_metadata: `{"Node-RED":"${_red}","${_pname}":"${_pversion}","name":"${_nname},"id":"${_nid}"}`
         };
-        if (_domain.indexOf('.') > -1) {
-          options.domain = _domain;
-        } else {
-          options.domain = _domain+".ngrok.io"; // Added for backwards compatibilty
+        if (_domain.length !=0){
+          if (_domain.indexOf('.') > -1) {
+            options.domain = _domain;
+          } else {
+            options.domain = _domain+".ngrok.io"; // Added for backwards compatibilty
+          }
         }
         if (_auth) {
           const auth = _auth.split(':');
