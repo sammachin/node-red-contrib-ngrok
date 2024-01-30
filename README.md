@@ -4,7 +4,7 @@ This is a client ([ngrok-javascript](https://github.com/ngrok/ngrok-javascript))
 
 You can start and stop a tunnel using the button on the node or by injecting values, the node will then output the ngrok host address as the `msg.payload`
 
-The tunnel will expose the port that your node-red GUI is running on (eg 1880), you can override this port by setting the Port value in the node.
+The tunnel will expose the port that your Node-RED GUI is running on (eg 1880), you can override this port by setting the Port value in the node.
 
 The default ngrok region is US but you can also set Europe, Asia, Australia, South America, Japan or India.
 
@@ -16,7 +16,7 @@ For dynamic control, there is a demo flow included. Use <kbd>CTRL+I</kbd> then c
 
 ### !!!DANGER!!!
 
-By running this node you will be exposing your node-red install to the public internet, therefore you are *strongly* advised to set an admin password on the editor.
+By running this node you will be exposing your Node-RED install to the public internet, therefore you are *strongly* advised to set an admin password on the editor.
 read (https://nodered.org/docs/security)
 
 Feedback, Issues and PRs welcome on github.
