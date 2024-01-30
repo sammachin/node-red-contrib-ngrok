@@ -3,7 +3,7 @@ const Package = require('./package.json');
 
 module.exports = function (RED) {
   function ngrok(config) {
-    const region_types = ['us', 'eu', 'ap', 'au', 'sa', 'jp', 'in'];
+    const region_types = ['us', 'us-cal-1', 'eu', 'ap', 'au', 'sa', 'jp', 'in'];
     const proto_types = ['http', 'tcp'];
     const bind_tls_types = ['https', 'true', 'http', 'false'];
 

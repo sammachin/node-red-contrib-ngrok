@@ -42,13 +42,14 @@
             $("#node-input-region").typedInput({
                 default: "us",
                 types: [
-                    makeTypedInputOpt("US", "us"),
-                    makeTypedInputOpt("Europe", "eu"),
-                    makeTypedInputOpt("Asia/Pacific", "ap"),
-                    makeTypedInputOpt("Australia", "au"),
-                    makeTypedInputOpt("South America", "sa"),
-                    makeTypedInputOpt("Japan", "jp"),
-                    makeTypedInputOpt("India", "in"),
+                    makeTypedInputOpt("United States (Ohio)", "us"),
+                    makeTypedInputOpt("United States (California)", "us-cal-1"),
+                    makeTypedInputOpt("Europe (Frankfurt)", "eu"),
+                    makeTypedInputOpt("Asia/Pacific (Singapore)", "ap"),
+                    makeTypedInputOpt("Australia (Sydney)", "au"),
+                    makeTypedInputOpt("South America (São Paulo)", "sa"),
+                    makeTypedInputOpt("Japan (Tokyo)", "jp"),
+                    makeTypedInputOpt("India (Mumbai)", "in"),
                     , 'msg', 'flow', 'global', 'str', 'env'
                 ],
                 typeField: $("#node-input-regionType"),
