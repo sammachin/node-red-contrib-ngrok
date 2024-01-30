@@ -145,9 +145,7 @@ module.exports = function (RED) {
           session_metadata: `{"Node-RED":"${_red}","${_pname}":"${_pversion}","name":"${_nname},"id":"${_nid}"}`
         };
         if (_subdomain.indexOf('.') > -1) {
-          options.hostname = _subdomain;
-        } else {
-          options.subdomain = _subdomain;
+          options.domain = _subdomain;
         }
         if (_auth) {
           const auth = _auth.split(':');
