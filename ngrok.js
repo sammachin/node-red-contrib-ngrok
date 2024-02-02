@@ -48,10 +48,10 @@ module.exports = function (RED) {
               await node.listener.close();
               node.listener = null;
             } else {
-              // _subdomain
-              let _subdomain = RED.util.evaluateNodeProperty(node.subdomain, node.subdomainType, node, msg);
-              if (_subdomain.indexOf('.') > -1) {
-                await ng.disconnect(_subdomain);
+              // _domain
+              let _domain = RED.util.evaluateNodeProperty(node.subdomain, node.subdomainType, node, msg);
+              if (_domain.indexOf('.') > -1) {
+                await ng.disconnect(_domain);
               }
             }
           } catch (_) {}
@@ -99,8 +99,8 @@ module.exports = function (RED) {
           } else {
             _bind_tls = RED.util.evaluateNodeProperty(node.bind_tls, node.bind_tlsType, node, msg);
           }
-          //subdomain
-          _subdomain = RED.util.evaluateNodeProperty(node.subdomain, node.subdomainType, node, msg);
+          //domain (node property is subdomain for backwards compatibility)
+          _domain = RED.util.evaluateNodeProperty(node.subdomain, node.subdomainType, node, msg);
           //auth
           if (node.authType == 'none') {
             _auth = null;
@@ -144,8 +144,12 @@ module.exports = function (RED) {
           host_header: _host_header,
           session_metadata: `{"Node-RED":"${_red}","${_pname}":"${_pversion}","name":"${_nname},"id":"${_nid}"}`
         };
-        if (_subdomain.indexOf('.') > -1) {
-          options.domain = _subdomain;
+        if (_domain.length !=0){
+          if (_domain.indexOf('.') > -1) {
+            options.domain = _domain;
+          } else {
+            options.domain = _domain+'.ngrok.io'; // Added for backwards compatibility
+          }
         }
         if (_auth) {
           const auth = _auth.split(':');
@@ -170,8 +174,8 @@ module.exports = function (RED) {
               await node.listener.close();
               node.listener = null;
             } else {
-              if (options.hostname) {
-                await ng.disconnect(options.hostname);
+              if (options.domain) {
+                await ng.disconnect(options.domain);
               }
             }
             node.listener = await ng.forward(options);
@@ -194,10 +198,10 @@ module.exports = function (RED) {
             await node.listener.close();
             node.listener = null;
           } else {
-            // _subdomain
-            let _subdomain = RED.util.evaluateNodeProperty(node.subdomain, node.subdomainType, node);
-            if (_subdomain.indexOf('.') > -1) {
-              await ng.disconnect(_subdomain);
+            // _domain
+            let _domain = RED.util.evaluateNodeProperty(node.subdomain, node.subdomainType, node);
+            if (_domain.indexOf('.') > -1) {
+              await ng.disconnect(_domain);
             }
           }
         } catch (_) {}
