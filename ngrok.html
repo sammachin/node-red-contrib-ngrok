@@ -9,8 +9,6 @@
             host: { value: "" },
             hostType: { value: "localhost" },
             creds: { value: "", type: "ngrokauth", required: true },
-            region: { value: 'us' },
-            regionType: { value: 'us' },
             proto: { value: 'http' },
             bind_tls: { value: "https" },
             bind_tlsType: { value: "https" },
@@ -39,21 +37,6 @@
                     hasValue: false
                 }
             }
-            $("#node-input-region").typedInput({
-                default: "us",
-                types: [
-                    makeTypedInputOpt("United States (Ohio)", "us"),
-                    makeTypedInputOpt("United States (California)", "us-cal-1"),
-                    makeTypedInputOpt("Europe (Frankfurt)", "eu"),
-                    makeTypedInputOpt("Asia/Pacific (Singapore)", "ap"),
-                    makeTypedInputOpt("Australia (Sydney)", "au"),
-                    makeTypedInputOpt("South America (São Paulo)", "sa"),
-                    makeTypedInputOpt("Japan (Tokyo)", "jp"),
-                    makeTypedInputOpt("India (Mumbai)", "in"),
-                    , 'msg', 'flow', 'global', 'str', 'env'
-                ],
-                typeField: $("#node-input-regionType"),
-            })
 
             $("#node-input-port").typedInput({
                 default: "node-red",
@@ -167,12 +150,6 @@
         <input type="text" id="node-input-host" style="width:70%;" placeholder="host">
     </div>
 
-    <div class="form-row">
-        <label for="node-input-region">Region</label>
-        <input type="hidden" id="node-input-regionType">
-        <input type="text" id="node-input-region" style="width:70%;" placeholder="region">
-    </div>
-
     <div id="node-ngrok-bind_tls" class="form-row">
         <label for="node-input-bind_tls">Binding</label>
         <input type="hidden" id="node-input-bind_tlsType">
@@ -256,19 +233,6 @@
     <p><code>Protocol</code> - tunnel protocol. Available options are "http" or "tcp"</p>
     <p><code>Port</code> - allows you to specify the local port number. Set to "Node-RED port" to use the current Node-RED port number</p>
     <p><code>Host</code> - allows you to specify the the host that ngrok will forward requests to in the local network, usually this is localhost</p>
-
-    <p><code>Region</code> - allows you to specify the region. Make sure the region you specify matches the region in which you reserved your domain. Expected values are...
-        <ul>
-            <li><code>us</code> - United States (Ohio)</li>
-            <li><code>us-cal-1</code> - United States (California)</li>
-            <li><code>eu</code> - Europe (Frankfurt)</li>
-            <li><code>ap</code> - Asia/Pacific (Singapore)</li>
-            <li><code>au</code> - Australia (Sydney)</li>
-            <li><code>sa</code> - South America (São Paulo)</li>
-            <li><code>jp</code> - Japan (Tokyo)</li>
-            <li><code>in</code> - India (Mumbai)</li>
-        </ul>
-    </p>
     <p><code>Binding</code> - bind an HTTPS or HTTP endpoint or both. Expected values are <code>["http"]</code>, or <code>["https"]</code>. It is <b>STRONGLY</b> recommended to use HTTPS. Only valid when protocol is "http"</p>
     <p><code>Domain</code> - enable you to create Endpoints to listen for traffic on those domain (one free domain) names. Domains may be a subdomain of an ngrok-managed base domain like foo.ngrok.app or you can bring your own branded domain like foo.example.com (<a target="_blank" href="https://ngrok.com/docs/network-edge/domains-and-tcp-addresses/#domains">more</a>). Only valid when protocol is "http"</p>
     <p><code>Host Header</code> - allows you to rewrite the HTTP Host Header to this value. Only valid when protocol is "http"</p>

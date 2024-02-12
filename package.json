@@ -1,6 +1,6 @@
 {
     "name": "node-red-contrib-ngrok",
-    "version": "3.0.0-beta1",
+    "version": "3.0.0",
     "description": "Node-RED node to wrap and control ngrok",
     "author": "Sam Machin",
     "contributors": ["Steve-Mcl", "twocolors"],

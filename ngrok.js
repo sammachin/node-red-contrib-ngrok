@@ -3,7 +3,6 @@ const Package = require('./package.json');
 
 module.exports = function (RED) {
   function ngrok(config) {
-    const region_types = ['us', 'us-cal-1', 'eu', 'ap', 'au', 'sa', 'jp', 'in'];
     const proto_types = ['http', 'tcp'];
     const bind_tls_types = ['https', 'true', 'http', 'false'];
 
@@ -14,8 +13,6 @@ module.exports = function (RED) {
     node.portType = config.portType || 'num';
     node.host = config.host || '';
     node.hostType = config.hostType || 'localhost';
-    node.region = config.region;
-    node.regionType = config.regionType || 'us';
     node.proto = config.proto || 'http';
     node.bind_tls = config.bind_tls;
     node.bind_tlsType = config.bind_tlsType || 'https';
@@ -60,7 +57,7 @@ module.exports = function (RED) {
           node.status({fill: 'red', shape: 'ring', text: 'disconnected'});
         })();
       } else if (['true', 'on', '1'].indexOf(String(msg.payload).toLowerCase()) != -1) {
-        let _port, _host, _proto, _region, _bind_tls, _auth, _host_header;
+        let _port, _host, _proto, _bind_tls, _auth, _host_header;
 
         if (node.portType == 'node-red' || node.portType == '') {
           _port = null;
@@ -86,11 +83,7 @@ module.exports = function (RED) {
           return;
         }
 
-        if (region_types.indexOf(node.regionType) >= 0) {
-          _region = node.regionType;
-        } else {
-          _region = RED.util.evaluateNodeProperty(node.region, node.regionType, node, msg);
-        }
+  
 
         if (String(_proto) === 'http') {
           //binding
@@ -139,7 +132,6 @@ module.exports = function (RED) {
           authtoken: node.authtoken,
           proto: _proto,
           addr: _host + ':' + _port,
-          region: _region,
           schemes: _bind_tls,
           host_header: _host_header,
           session_metadata: `{"Node-RED":"${_red}","${_pname}":"${_pversion}","name":"${_nname},"id":"${_nid}"}`
