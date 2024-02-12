@@ -6,8 +6,8 @@ You can start and stop a tunnel using the button on the node or by injecting val
 
 The tunnel will expose the port that your Node-RED GUI is running on (eg 1880), you can override this port by setting the Port value in the node.
 
-The 3.0 release uses the new ngrok javascript client, as such region support has been removed an it now uses ngrok's new Global Load Balancing service.
-Additionall the client no longer offers the local debug console on port 4040, however ngrok have a new console as part of the dashboard in beta as of Feb 2024.
+The 3.0.0 release uses the new ngrok javascript client, as such region support has been removed an it now uses ngrok's new global load balancing service.
+The new client no longer offers the local debug console on port 4040, however ngrok have a new console as part of the dashboard in beta as of Feb 2024.
 
 Account registration is now required but all users get one free reserved tunnel address even on the free plan.
 
