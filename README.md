@@ -6,11 +6,12 @@ You can start and stop a tunnel using the button on the node or by injecting val
 
 The tunnel will expose the port that your Node-RED GUI is running on (eg 1880), you can override this port by setting the Port value in the node.
 
-The default ngrok region is US but you can also set Europe, Asia, Australia, South America, Japan or India.
+The 3.0 release uses the new ngrok javascript client, as such region support has been removed an it now uses ngrok's new Global Load Balancing service.
+Additionall the client no longer offers the local debug console on port 4040, however ngrok have a new console as part of the dashboard in beta as of Feb 2024.
 
-While ngrok **require** account registration then you can have tunnels that live for more than 8 hour even on the free package, to get additional features such as reserved hostnames (1 free) and multiple tunnels require a paid account.
+Account registration is now required but all users get one free reserved tunnel address even on the free plan.
 
-Other optional fields around the host and port that the connection is forwarded to along with adding auth or setting up a TCP tunnel are configurable within the node, consult the build in help or the ngrok documentation for an explanation.
+Other optional fields around the host and port that the connection is forwarded to along with adding auth or setting up a TCP tunnel are configurable within the node, consult the built in help or the ngrok documentation for an explanation.
 
 For dynamic control, there is a demo flow included. Use <kbd>CTRL+I</kbd> then choose **examples** → **node-red-contrib-ngrok** → **dynamic-control-demo**
 
