@@ -3,7 +3,7 @@ const Package = require('./package.json');
 
 module.exports = function (RED) {
   function ngrok(config) {
-    const proto_types = ['http', 'tcp'];
+    const proto_types = ['http', 'https', 'tcp', 'tls'];
     const bind_tls_types = ['https', 'true', 'http', 'false'];
 
     RED.nodes.createNode(this, config);
@@ -82,9 +82,6 @@ module.exports = function (RED) {
           node.status({fill: 'red', shape: 'dot', text: 'error'});
           return;
         }
-
-  
-
         if (String(_proto) === 'http') {
           //binding
           if (bind_tls_types.indexOf(node.bind_tlsType) >= 0) {
@@ -130,12 +127,16 @@ module.exports = function (RED) {
 
         var options = {
           authtoken: node.authtoken,
-          proto: _proto,
-          addr: _host + ':' + _port,
           schemes: _bind_tls,
           host_header: _host_header,
           session_metadata: `{"Node-RED":"${_red}","${_pname}":"${_pversion}","name":"${_nname},"id":"${_nid}"}`
         };
+        if (_proto == 'https'){
+          options.addr = "https://"+ _host + ':' + _port
+        } else {
+          options.proto = _proto
+          options.addr =_host + ':' + _port
+        }
         if (_domain.length !=0){
           if (_domain.indexOf('.') > -1) {
             options.domain = _domain;

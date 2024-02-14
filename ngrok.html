@@ -77,11 +77,7 @@
                 ],
                 typeField: $("#node-input-hostHeaderType"),
             })
-            //ensure valid protocol choice
-            if(this.proto !== "tcp" && this.proto !== "http") {
-                this.proto = "http";
-                $("#node-input-proto").val(this.proto);
-            }
+           
         },
         oneditsave: function () {
             this.inputs.value = $("#node-input-inputs").val()
@@ -134,7 +130,9 @@
         <label for="node-input-proto">Protocol</label>
         <select type="text" id="node-input-proto" style="width:70%;" onchange="toggleProtocol(this.value)">
             <option value="http">HTTP</option>
+            <option value="https">HTTPS</option>
             <option value="tcp">TCP</option>
+            <option value="tls">TLS</option>
         </select>
     </div>
 
