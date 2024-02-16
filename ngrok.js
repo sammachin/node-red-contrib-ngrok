@@ -172,7 +172,8 @@ module.exports = function (RED) {
                 await ng.disconnect(options.domain);
               }
             }
-            console.log(options)
+
+            node.debug(JSON.stringify(options))
             node.listener = await ng.forward(options);
             msg.payload = node.listener.url();
             node.send(msg);
@@ -185,7 +186,6 @@ module.exports = function (RED) {
         })();
       }
     });
-
     node.on('close', function (removed, done) {
       (async function () {
         try {

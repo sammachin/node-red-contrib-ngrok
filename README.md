@@ -22,6 +22,12 @@ read (https://nodered.org/docs/security)
 
 Feedback, Issues and PRs welcome on github.
 
+### Debugging
+    If your node-red logging level is set to `debug` then the full set of options being passed to the ngrok client (ngrok.forward) will be logged to the console, *including the authtoken*,
+    This can be useful when trying to diagnose issues and may be asked for by ngrok support. Please include this info (redacting your authtoken) in any issues asking for support.
+
+    The simplest way to enable this logging if running node-red from the command line is to launch with the command `node-red -D logging.console.level=debug`
+
 ### Platform Support
 
 Pre-built binaries are provided on NPM for the following platforms:
