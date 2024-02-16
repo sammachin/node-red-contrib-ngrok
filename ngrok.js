@@ -1,9 +1,10 @@
 const ng = require('@ngrok/ngrok');
 const Package = require('./package.json');
+const ngp = require('@ngrok/ngrok/package.json');
 
 module.exports = function (RED) {
   function ngrok(config) {
-    const proto_types = ['http', 'tcp'];
+    const proto_types = ['http', 'https', 'tcp', 'tls'];
     const bind_tls_types = ['https', 'true', 'http', 'false'];
 
     RED.nodes.createNode(this, config);
@@ -30,7 +31,6 @@ module.exports = function (RED) {
     node.listener = null;
 
     node.status({fill: 'grey', shape: 'ring', text: 'idle'});
-
     node.on('input', function (msg) {
       if (!node.authtoken || node.authtoken == '') {
         node.error('Usage of ngrok requires a verified account and authtoken');
@@ -57,7 +57,7 @@ module.exports = function (RED) {
           node.status({fill: 'red', shape: 'ring', text: 'disconnected'});
         })();
       } else if (['true', 'on', '1'].indexOf(String(msg.payload).toLowerCase()) != -1) {
-        let _port, _host, _proto, _bind_tls, _auth, _host_header;
+        let _port, _host, _proto, _domain, _bind_tls, _auth, _host_header;
 
         if (node.portType == 'node-red' || node.portType == '') {
           _port = null;
@@ -82,10 +82,7 @@ module.exports = function (RED) {
           node.status({fill: 'red', shape: 'dot', text: 'error'});
           return;
         }
-
-  
-
-        if (String(_proto) === 'http') {
+        if (String(_proto) != 'tcp') {
           //binding
           if (bind_tls_types.indexOf(node.bind_tlsType) >= 0) {
             _bind_tls = node.bind_tlsType;
@@ -125,17 +122,22 @@ module.exports = function (RED) {
         const _red = RED.version();
         const _pname = Package.name.trim();
         const _pversion = Package.version.trim();
+        const _ngversion = ngp.version.trim();
         const _nname = node.name;
         const _nid = node.id;
 
         var options = {
           authtoken: node.authtoken,
-          proto: _proto,
-          addr: _host + ':' + _port,
           schemes: _bind_tls,
           host_header: _host_header,
-          session_metadata: `{"Node-RED":"${_red}","${_pname}":"${_pversion}","name":"${_nname},"id":"${_nid}"}`
+          session_metadata: `{"Node-RED":"${_red}","${_pname}":"${_pversion}","ngrok-javascript": ${_ngversion},"name":"${_nname},"id":"${_nid}"}`
         };
+        if (_proto == 'https'){
+          options.addr = "https://"+ _host + ':' + _port
+        } else {
+          options.proto = _proto
+          options.addr =_host + ':' + _port
+        }
         if (_domain.length !=0){
           if (_domain.indexOf('.') > -1) {
             options.domain = _domain;
@@ -170,6 +172,8 @@ module.exports = function (RED) {
                 await ng.disconnect(options.domain);
               }
             }
+
+            node.debug(JSON.stringify(options))
             node.listener = await ng.forward(options);
             msg.payload = node.listener.url();
             node.send(msg);
@@ -182,7 +186,6 @@ module.exports = function (RED) {
         })();
       }
     });
-
     node.on('close', function (removed, done) {
       (async function () {
         try {

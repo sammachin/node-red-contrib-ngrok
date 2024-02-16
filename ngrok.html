@@ -77,11 +77,7 @@
                 ],
                 typeField: $("#node-input-hostHeaderType"),
             })
-            //ensure valid protocol choice
-            if(this.proto !== "tcp" && this.proto !== "http") {
-                this.proto = "http";
-                $("#node-input-proto").val(this.proto);
-            }
+           
         },
         oneditsave: function () {
             this.inputs.value = $("#node-input-inputs").val()
@@ -134,7 +130,9 @@
         <label for="node-input-proto">Protocol</label>
         <select type="text" id="node-input-proto" style="width:70%;" onchange="toggleProtocol(this.value)">
             <option value="http">HTTP</option>
+            <option value="https">HTTPS</option>
             <option value="tcp">TCP</option>
+            <option value="tls">TLS</option>
         </select>
     </div>
 
@@ -230,7 +228,14 @@
 
     <h3>Properties</h3>
     <p><code>Authtoken</code> - while ngrok require account registration</p>
-    <p><code>Protocol</code> - tunnel protocol. Available options are "http" or "tcp"</p>
+    <p><code>Protocol</code> - The protocol used by the upstream server you are connecting to;
+    <ul>
+        <li><code>HTTP</code> This isused for most service, like node-red webserver is using plain HTTP</li>
+        <li><code>HTTPS</code></li> This is where the local server uses HTTPS, note if the server is using a self signed cert this may not work see https://github.com/ngrok/ngrok-javascript/issues/119
+        <li><code>TCP</code></li> This is for plain TCP connections for other protocols
+        <li><code>TLS</code></li> This forwards a TLS connection directly to the client exposing the upstream servers certificate.
+    </ul>
+    </p>
     <p><code>Port</code> - allows you to specify the local port number. Set to "Node-RED port" to use the current Node-RED port number</p>
     <p><code>Host</code> - allows you to specify the the host that ngrok will forward requests to in the local network, usually this is localhost</p>
     <p><code>Binding</code> - bind an HTTPS or HTTP endpoint or both. Expected values are <code>["http"]</code>, or <code>["https"]</code>. It is <b>STRONGLY</b> recommended to use HTTPS. Only valid when protocol is "http"</p>
@@ -250,6 +255,11 @@
        ngrok now has a new dashboard in your ngrok.com account pages, 
        as of Feb 2024 this was in private beta but should roll out soon.
     </p>
+
+    <h3>Debugging</h3>
+    If your node-red logging level is set to <code>debug</code> then the full set of options being passed to the ngrok client (ngrok.forward) will be logged to the console, including the authtoken,
+    This can be useful when trying to diagnose issues and may be asked for by ngrok support.<br>
+    The simplest way to enable this logging if running node-red from the command line is to launch with the command <code>node-red -D logging.console.level=debug</code>
 
 </script>
 
