@@ -32,7 +32,7 @@ module.exports = function (RED) {
     node.status({ fill: "grey", shape: "ring", text: "idle" });
 
     node.on('input', function (msg) {
-
+      let _subdomain = '';
       if (msg.payload == 'off' || msg.payload === false) {
         (async function () {
           await ng.kill();
@@ -71,7 +71,7 @@ module.exports = function (RED) {
           _region = RED.util.evaluateNodeProperty(node.region, node.regionType, node, msg);
         }
 
-        if (_proto !== "tcp" || _proto !== "http") {
+        if ( ["tcp", "http" ].indexOf(_proto) < 0 ) {
           //binding
           if (bind_tls_types.indexOf(node.bind_tlsType) >= 0) {
             _bind_tls = node.bind_tlsType;
