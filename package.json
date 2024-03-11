@@ -21,6 +21,6 @@
         }
     },
     "dependencies": {
-        "@ngrok/ngrok": "1.0.0"
+        "@ngrok/ngrok": "1.1.1"
     }
 }
