@@ -82,6 +82,8 @@ module.exports = function (RED) {
           node.status({fill: 'red', shape: 'dot', text: 'error'});
           return;
         }
+        //domain (node property is subdomain for backwards compatibility)
+        _domain = RED.util.evaluateNodeProperty(node.subdomain, node.subdomainType, node, msg);
         if (String(_proto) != 'tcp') {
           //binding
           if (bind_tls_types.indexOf(node.bind_tlsType) >= 0) {
@@ -89,8 +91,6 @@ module.exports = function (RED) {
           } else {
             _bind_tls = RED.util.evaluateNodeProperty(node.bind_tls, node.bind_tlsType, node, msg);
           }
-          //domain (node property is subdomain for backwards compatibility)
-          _domain = RED.util.evaluateNodeProperty(node.subdomain, node.subdomainType, node, msg);
           //auth
           if (node.authType == 'none') {
             _auth = null;
